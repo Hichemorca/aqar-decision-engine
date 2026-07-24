@@ -1,0 +1,1004 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="AQAR Decision Engine — First Arabic Real Estate Decision Matrix. Calculate IRR, NPV, DSCR and get instant Buy/Sell/Hold recommendations." />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>AQAR Decision Engine</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --gold: #d4920e;
+      --green: #00b86e;
+      --red: #ff3c5a;
+      --blue: #3c8cdc;
+      --text: #e8edf5;
+      --muted: #8a9ab0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #060d1a;
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    #city-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    #form-overlay {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 16px 80px;
+      min-height: 100vh;
+      justify-content: flex-start;
+      pointer-events: none;
+    }
+    #form-overlay > * { pointer-events: auto; }
+
+    .form-container { width: 100%; max-width: 560px; }
+
+    .brand { text-align: center; margin-bottom: 8px; }
+    .brand .tag {
+      font-size: 10px;
+      letter-spacing: 5px;
+      color: var(--gold);
+      font-weight: 700;
+      text-transform: uppercase;
+      text-shadow: 0 0 18px rgba(212, 146, 14, 0.5);
+    }
+    .brand .title {
+      font-size: 22px;
+      font-weight: 900;
+      color: #f0e0b0;
+      margin: 2px 0;
+      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.9);
+    }
+    .brand .sub {
+      font-size: 11px;
+      color: var(--muted);
+      font-weight: 300;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+    }
+
+    .valuation-banner {
+      background: rgba(212, 146, 14, 0.08);
+      border: 1px solid rgba(212, 146, 14, 0.25);
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+      font-size: 11px;
+      color: var(--gold);
+      line-height: 1.7;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+      display: none;
+    }
+    .valuation-banner.show { display: block; }
+    .valuation-banner b { color: #f0c040; }
+
+    .progress-row {
+      display: flex;
+      gap: 5px;
+      margin: 16px 0 8px;
+      justify-content: center;
+    }
+    .progress-dot {
+      flex: 1;
+      max-width: 50px;
+      height: 3px;
+      border-radius: 2px;
+      background: rgba(255, 255, 255, 0.12);
+      transition: all 0.4s;
+    }
+    .progress-dot.active { background: var(--gold); }
+    .progress-dot.done { background: var(--green); }
+
+    .floor-counter {
+      text-align: center;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      margin-bottom: 12px;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+    }
+    .floor-counter b { color: var(--gold); font-size: 13px; }
+
+    .scr { display: none; }
+    .scr.on { display: block; animation: fadeUp 0.35s ease; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h2 {
+      font-size: 16px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 14px;
+      color: #dce8f5;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+    }
+
+    h3 {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin: 14px 0 8px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid rgba(212, 146, 14, 0.2);
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+    }
+
+    .opts { display: flex; flex-direction: column; gap: 8px; }
+
+    .opt {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(4, 10, 24, 0.55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: 13px;
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: all 0.22s;
+    }
+    .opt:hover {
+      border-color: rgba(212, 146, 14, 0.45);
+      background: rgba(8, 18, 40, 0.60);
+    }
+    .opt.sel {
+      border-color: var(--gold);
+      background: rgba(20, 30, 55, 0.62);
+      box-shadow: 0 0 0 1px rgba(212, 146, 14, 0.20), 0 0 20px rgba(212, 146, 14, 0.08);
+    }
+    .opt .ico { font-size: 26px; flex-shrink: 0; }
+    .opt .ttl { font-size: 14px; font-weight: 700; }
+    .opt .dsc { font-size: 11px; color: var(--muted); margin-top: 2px; }
+
+    .row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .fg { flex: 1; min-width: 180px; margin-bottom: 10px; }
+
+    .fg label {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #b0c0d8;
+      margin-bottom: 4px;
+      letter-spacing: 0.3px;
+      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+    }
+
+    .fg input, .fg select {
+      width: 100%;
+      padding: 10px 13px;
+      border-radius: 9px;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(4, 10, 24, 0.50);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      color: var(--text);
+      font-size: 14px;
+      font-family: 'Inter', sans-serif;
+      transition: border 0.2s, background 0.2s, box-shadow 0.2s;
+    }
+
+    .fg input:focus, .fg select:focus {
+      outline: none;
+      border-color: rgba(212, 146, 14, 0.55);
+      background: rgba(4, 10, 24, 0.60);
+      box-shadow: 0 0 0 2px rgba(212, 146, 14, 0.10);
+    }
+
+    .fg input.error {
+      border-color: rgba(255, 60, 90, 0.6);
+      box-shadow: 0 0 0 2px rgba(255, 60, 90, 0.15);
+    }
+
+    .fg .note {
+      font-size: 10px;
+      color: #5a7090;
+      margin-top: 2px;
+      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .fg .tip {
+      font-size: 10px;
+      color: #3a8acf;
+      margin-top: 2px;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .help-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(212, 146, 14, 0.15);
+      color: var(--gold);
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-left: 6px;
+      transition: all 0.22s;
+      flex-shrink: 0;
+      border: 1px solid rgba(212, 146, 14, 0.25);
+      user-select: none;
+      line-height: 1;
+    }
+    .help-icon:hover {
+      background: rgba(212, 146, 14, 0.28);
+      border-color: rgba(212, 146, 14, 0.55);
+      box-shadow: 0 0 12px rgba(212, 146, 14, 0.2);
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: none;
+      font-size: 15px;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.22s;
+      margin-top: 8px;
+      text-align: center;
+    }
+
+    .btn-p {
+      background: linear-gradient(135deg, #d4920e, #a86c08);
+      color: #000;
+      box-shadow: 0 4px 18px rgba(212, 146, 14, 0.28);
+    }
+    .btn-p:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(212, 146, 14, 0.42);
+    }
+    .btn-p:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    .btn-s {
+      background: rgba(4, 10, 24, 0.45);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      color: #8a9ab0;
+      border: 1px solid rgba(255, 255, 255, 0.10);
+      margin-top: 8px;
+    }
+    .btn-s:hover {
+      border-color: rgba(255,255,255,0.18);
+      color: var(--text);
+      background: rgba(4, 10, 24, 0.55);
+    }
+
+    .hidden { display: none !important; }
+
+    .validation-msg {
+      background: rgba(255, 60, 90, 0.12);
+      border: 1px solid rgba(255, 60, 90, 0.3);
+      border-radius: 10px;
+      padding: 10px 14px;
+      margin: 10px 0;
+      font-size: 12px;
+      color: #ff6b7a;
+      text-align: center;
+      display: none;
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    .validation-msg.show { display: block; animation: fadeUp 0.3s ease; }
+
+    .result-inline {
+      width: 100%;
+      max-width: 560px;
+      background: rgba(0,0,0,0.10);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 18px;
+      padding: 16px 12px;
+      margin-top: 14px;
+      box-shadow: 0 14px 45px rgba(0, 0, 0, 0.28);
+    }
+    .result-inline:empty { display: none; }
+
+    .result-inline .r-label {
+      font-size: 10px;
+      letter-spacing: 3px;
+      color: rgba(138,154,176,0.7);
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .r-box {
+      padding: 16px;
+      border-radius: 16px;
+      text-align: center;
+      margin: 12px 0;
+      background: rgba(0,0,0,0.10);
+      border: 1px solid rgba(255,255,255,0.05);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+    }
+
+    .r-box.buy { border-color: rgba(0, 184, 110, 0.30); background: rgba(0, 184, 110, 0.05); }
+    .r-box.sell { border-color: rgba(255, 60, 90, 0.30); background: rgba(255, 60, 90, 0.05); }
+    .r-box.hold { border-color: rgba(60, 140, 220, 0.30); background: rgba(60, 140, 220, 0.05); }
+    .r-box.caution { border-color: rgba(212, 146, 14, 0.30); background: rgba(212, 146, 14, 0.05); }
+
+    .r-decision { font-size: 20px; font-weight: 900; letter-spacing: 0.5px; }
+    .r-box.buy .r-decision { color: var(--green); }
+    .r-box.sell .r-decision { color: var(--red); }
+    .r-box.hold .r-decision { color: var(--blue); }
+    .r-box.caution .r-decision { color: var(--gold); }
+
+    .r-warn { font-size: 12px; margin-top: 6px; line-height: 1.6; }
+
+    .mtable {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0;
+      background: rgba(0,0,0,0.10);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px;
+      overflow: hidden;
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+    }
+
+    .mtable td {
+      padding: 7px 9px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      font-size: 12px;
+    }
+    .mtable tr:last-child td { border-bottom: none; }
+
+    .mtable td:last-child {
+      text-align: left;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--gold);
+      font-family: monospace;
+    }
+
+    .mtable .sec-hd td {
+      color: var(--gold);
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 1px;
+      padding-top: 10px;
+    }
+
+    .r-foot {
+      text-align: center;
+      font-size: 11px;
+      color: rgba(138,154,176,0.7);
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255, 255, 255, 0.04);
+      line-height: 1.8;
+    }
+
+    .btn-restart {
+      display: block;
+      width: 100%;
+      padding: 11px;
+      margin-top: 10px;
+      border-radius: 9px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(0,0,0,0.08);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      color: rgba(138,154,176,0.8);
+      font-size: 14px;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: all 0.22s;
+      text-align: center;
+    }
+    .btn-restart:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      background: rgba(0,0,0,0.12);
+    }
+
+    @media (max-width: 500px) {
+      .row { flex-direction: column; gap: 0; }
+      #form-overlay { padding: 24px 10px 40px; }
+      .result-inline { padding: 14px 10px; }
+    }
+
+    .loading {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(212,146,14,0.3);
+      border-radius: 50%;
+      border-top-color: var(--gold);
+      animation: spin 0.8s linear infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id="city-canvas" role="img" aria-label="City visualization showing investment progress"></canvas>
+
+  <div id="form-overlay">
+    <div class="form-container">
+
+      <div class="brand">
+        <div class="tag">AQAR Decision Engine</div>
+        <div class="title">Real Estate Decision Matrix</div>
+        <div class="sub">Stop guessing — let the numbers decide.</div>
+      </div>
+
+      <!-- Valuation Engine Banner -->
+      <div class="valuation-banner" id="valuationBanner">
+        📋 <b>From Valuation Engine</b><br>
+        <span id="valBannerText"></span>
+      </div>
+
+      <div class="progress-row">
+        <div class="progress-dot active" id="pd0"></div>
+        <div class="progress-dot" id="pd1"></div>
+        <div class="progress-dot" id="pd2"></div>
+        <div class="progress-dot" id="pd3"></div>
+      </div>
+
+      <div class="floor-counter">
+        <span id="fc-label">Floors built</span>: <b id="fc-n">0</b> / <b id="fc-t">—</b>
+      </div>
+
+      <div class="validation-msg" id="validationMsg"></div>
+
+      <!-- SCREEN 0 -->
+      <div class="scr on" id="scr0">
+        <h2>🎯 What is your current position?</h2>
+        <div class="opts" id="roleOptions">
+          <div class="opt" data-role="buyer">
+            <span class="ico">🏠</span>
+            <div><div class="ttl">I want to buy a property</div><div class="dsc">I don't own one — looking for an opportunity</div></div>
+          </div>
+          <div class="opt" data-role="seller">
+            <span class="ico">💰</span>
+            <div><div class="ttl">I want to sell a property I own</div><div class="dsc">I own one and consider exiting</div></div>
+          </div>
+          <div class="opt" data-role="switcher">
+            <span class="ico">🔄</span>
+            <div><div class="ttl">Sell mine and buy another</div><div class="dsc">I own one and found a better opportunity</div></div>
+          </div>
+        </div>
+        <button class="btn btn-p" id="btnNext0" disabled>Next →</button>
+      </div>
+
+      <!-- SCREEN 1 -->
+      <div class="scr" id="scr1">
+        <h2 id="s1Title">📋 Core Data</h2>
+
+        <div id="buyerFields" class="hidden">
+          <h3>Property to Buy</h3>
+          <div class="row">
+            <div class="fg">
+              <label>💰 Purchase Price <span class="help-icon" data-help="bP">ⓘ</span></label>
+              <input type="number" id="bP" placeholder="e.g. 500000" data-required="true">
+            </div>
+            <div class="fg">
+              <label>🏦 Down Payment (if any) <span class="help-icon" data-help="bDP">ⓘ</span></label>
+              <input type="number" id="bDP" placeholder="e.g. 150000">
+              <div class="note">Leave 0 for all-cash purchase</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="fg">
+              <label>📊 Expected Annual Net Rent <span class="help-icon" data-help="bCF">ⓘ</span></label>
+              <input type="number" id="bCF" placeholder="e.g. 25000" data-required="true">
+              <div class="note">Rent − Expenses (before loan payments)</div>
+            </div>
+            <div class="fg">
+              <label>📈 Expected Annual Value Growth (%) <span class="help-icon" data-help="bCG">ⓘ</span></label>
+              <input type="number" id="bCG" placeholder="e.g. 3" step="0.1">
+              <div class="tip" data-target="bCG">Use 3% default</div>
+            </div>
+          </div>
+          <h3>Operating Assumptions</h3>
+          <div class="row">
+            <div class="fg">
+              <label>🏚️ Vacancy Rate (%) <span class="help-icon" data-help="bVac">ⓘ</span></label>
+              <input type="number" id="bVac" placeholder="e.g. 10" step="0.1"><div class="note">Default 8%</div>
+            </div>
+            <div class="fg">
+              <label>🛠️ Operating Expenses (% of Rent) <span class="help-icon" data-help="bOpEx">ⓘ</span></label>
+              <input type="number" id="bOpEx" placeholder="e.g. 20" step="0.1"><div class="note">Default 18%</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="fg">
+              <label>📈 Annual Rent Growth (%) <span class="help-icon" data-help="bRG">ⓘ</span></label>
+              <input type="number" id="bRG" placeholder="e.g. 2" step="0.1"><div class="note">Default 2%</div>
+            </div>
+            <div class="fg">
+              <label>🧾 Future Exit Cost (%) <span class="help-icon" data-help="bExit">ⓘ</span></label>
+              <input type="number" id="bExit" placeholder="e.g. 5" step="0.1"><div class="note">Default 5%</div>
+            </div>
+          </div>
+          <h3>Financing (Optional)</h3>
+          <div class="row">
+            <div class="fg">
+              <label>🏦 Annual Interest Rate (%) <span class="help-icon" data-help="bIR">ⓘ</span></label>
+              <input type="number" id="bIR" placeholder="e.g. 6" step="0.1"><div class="note">Leave 0 for cash purchase</div>
+            </div>
+            <div class="fg">
+              <label>⏳ Loan Term (Years) <span class="help-icon" data-help="bLT">ⓘ</span></label>
+              <input type="number" id="bLT" placeholder="e.g. 20"><div class="note">Leave 0 for cash purchase</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="ownerFields" class="hidden">
+          <h3>Your Current Property</h3>
+          <div class="row">
+            <div class="fg">
+              <label>💎 Current Market Value <span class="help-icon" data-help="oMV">ⓘ</span></label>
+              <input type="number" id="oMV" placeholder="e.g. 600000" data-required="true">
+            </div>
+            <div class="fg">
+              <label>🏦 Remaining Loan Balance <span class="help-icon" data-help="oLoan">ⓘ</span></label>
+              <input type="number" id="oLoan" placeholder="e.g. 200000 or 0">
+            </div>
+          </div>
+          <div class="row">
+            <div class="fg">
+              <label>📊 Current Annual Net Rent <span class="help-icon" data-help="oCF">ⓘ</span></label>
+              <input type="number" id="oCF" placeholder="e.g. 18000" data-required="true">
+              <div class="note">Rent − Expenses (before loan payments)</div>
+            </div>
+            <div class="fg">
+              <label>📈 Expected Annual Value Growth (%) <span class="help-icon" data-help="oCG">ⓘ</span></label>
+              <input type="number" id="oCG" placeholder="e.g. 3" step="0.1">
+              <div class="tip" data-target="oCG">Use 3% default</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="fg">
+              <label>📜 Original Purchase Price (optional) <span class="help-icon" data-help="oPP">ⓘ</span></label>
+              <input type="number" id="oPP" placeholder="For tax calculation">
+            </div>
+            <div class="fg">
+              <label>🧾 Capital Gains Tax Rate (%) <span class="help-icon" data-help="oTax">ⓘ</span></label>
+              <input type="number" id="oTax" placeholder="e.g. 15" step="0.1">
+            </div>
+          </div>
+          <h3>Operating Assumptions</h3>
+          <div class="row">
+            <div class="fg">
+              <label>🏚️ Vacancy Rate (%) <span class="help-icon" data-help="oVac">ⓘ</span></label>
+              <input type="number" id="oVac" placeholder="e.g. 8" step="0.1"><div class="note">Default 8%</div>
+            </div>
+            <div class="fg">
+              <label>🛠️ Operating Expenses (% of Rent) <span class="help-icon" data-help="oOpEx">ⓘ</span></label>
+              <input type="number" id="oOpEx" placeholder="e.g. 18" step="0.1"><div class="note">Default 18%</div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="fg">
+              <label>📈 Annual Rent Growth (%) <span class="help-icon" data-help="oRG">ⓘ</span></label>
+              <input type="number" id="oRG" placeholder="e.g. 2" step="0.1"><div class="note">Default 2%</div>
+            </div>
+            <div class="fg">
+              <label>🧾 Future Exit Cost (%) <span class="help-icon" data-help="oExit">ⓘ</span></label>
+              <input type="number" id="oExit" placeholder="e.g. 5" step="0.1"><div class="note">Default 5%</div>
+            </div>
+          </div>
+          <h3>Financing (Optional)</h3>
+          <div class="row">
+            <div class="fg">
+              <label>🏦 Annual Interest Rate (%) <span class="help-icon" data-help="oIR">ⓘ</span></label>
+              <input type="number" id="oIR" placeholder="e.g. 6" step="0.1"><div class="note">0 if no active loan</div>
+            </div>
+            <div class="fg">
+              <label>⏳ Loan Term (Years) <span class="help-icon" data-help="oLT">ⓘ</span></label>
+              <input type="number" id="oLT" placeholder="e.g. 20"><div class="note">0 if no active loan</div>
+            </div>
+          </div>
+        </div>
+
+        <h3>General Settings</h3>
+        <div class="row">
+          <div class="fg">
+            <label>🎯 Target Annual Return (%)</label>
+            <input type="number" id="gRR" placeholder="e.g. 10" step="0.1"><div class="note">Default 10%</div>
+          </div>
+          <div class="fg">
+            <label>🏦 Bank Deposit Return (%)</label>
+            <input type="number" id="gSafe" placeholder="e.g. 5" step="0.1" data-required="true">
+          </div>
+        </div>
+        <div class="row">
+          <div class="fg">
+            <label>🔁 Transaction Cost (%)</label>
+            <input type="number" id="gSw" placeholder="e.g. 5" step="0.1"><div class="note">Commissions + fees + vacancy gap</div>
+          </div>
+          <div class="fg">
+            <label>⚠️ Interest Rate Type</label>
+            <select id="gVar"><option value="no">Fixed</option><option value="yes">Variable</option></select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="fg">
+            <label>📅 Holding Period (Years)</label>
+            <input type="number" id="gHold" placeholder="e.g. 5"><div class="note">Default 5 years</div>
+          </div>
+          <div class="fg">
+            <label>💸 NPV Discount Rate (%)</label>
+            <input type="number" id="gDisc" placeholder="e.g. 10" step="0.1"><div class="note">Default equals target return</div>
+          </div>
+        </div>
+
+        <button class="btn btn-p" id="btnNext1">Next →</button>
+        <button class="btn btn-s" id="btnBack1">← Back</button>
+      </div>
+
+      <!-- SCREEN 2 -->
+      <div class="scr" id="scr2">
+        <h2>🆕 New Opportunity Data</h2>
+        <div class="row">
+          <div class="fg">
+            <label>💰 New Property Purchase Price</label>
+            <input type="number" id="nP" placeholder="e.g. 700000" data-required="true">
+          </div>
+          <div class="fg">
+            <label>🏦 Down Payment</label>
+            <input type="number" id="nDP" placeholder="e.g. 200000">
+          </div>
+        </div>
+        <div class="row">
+          <div class="fg">
+            <label>📊 Expected Annual Net Rent</label>
+            <input type="number" id="nCF" placeholder="e.g. 35000" data-required="true">
+          </div>
+          <div class="fg">
+            <label>📈 Expected Annual Value Growth (%)</label>
+            <input type="number" id="nCG" placeholder="e.g. 3" step="0.1">
+            <div class="tip" data-target="nCG">Use 3% default</div>
+          </div>
+        </div>
+        <h3>Operating Assumptions</h3>
+        <div class="row">
+          <div class="fg">
+            <label>🏚️ Vacancy Rate (%)</label>
+            <input type="number" id="nVac" placeholder="e.g. 10" step="0.1"><div class="note">Default 8%</div>
+          </div>
+          <div class="fg">
+            <label>🛠️ Operating Expenses (% of Rent)</label>
+            <input type="number" id="nOpEx" placeholder="e.g. 20" step="0.1"><div class="note">Default 18%</div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="fg">
+            <label>📈 Annual Rent Growth (%)</label>
+            <input type="number" id="nRG" placeholder="e.g. 2" step="0.1"><div class="note">Default 2%</div>
+          </div>
+          <div class="fg">
+            <label>🧾 Future Exit Cost (%)</label>
+            <input type="number" id="nExit" placeholder="e.g. 5" step="0.1"><div class="note">Default 5%</div>
+          </div>
+        </div>
+        <h3>Financing (Optional)</h3>
+        <div class="row">
+          <div class="fg">
+            <label>🏦 Annual Interest Rate (%)</label>
+            <input type="number" id="nIR" placeholder="e.g. 6" step="0.1">
+          </div>
+          <div class="fg">
+            <label>⏳ Loan Term (Years)</label>
+            <input type="number" id="nLT" placeholder="e.g. 20">
+          </div>
+        </div>
+        <button class="btn btn-p" id="btnCalculate">🧮 Calculate</button>
+        <button class="btn btn-s" id="btnBack2">← Back</button>
+      </div>
+
+      <!-- SCREEN 3 -->
+      <div class="scr" id="scr3">
+        <div style="text-align:center;padding:16px 0 8px">
+          <div style="font-size:40px">🏙️</div>
+          <div class="done-title" style="font-size:18px;font-weight:900;color:var(--gold);margin:4px 0">City Complete!</div>
+          <div class="done-sub" style="font-size:12px;color:#4a5a70">Your analysis is ready</div>
+        </div>
+        <div class="result-inline" id="result-section">
+          <div class="r-label">AQAR Decision Engine • Full Analysis</div>
+          <div id="rHTML"></div>
+          <div id="rFoot" class="r-foot"></div>
+        </div>
+        <button class="btn-restart" id="btnRestart">🔄 New Analysis</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener('DOMContentLoaded', initApp);
+
+    function initApp() {
+      const STRINGS = {
+        app_tag: "AQAR Decision Engine", app_title: "Real Estate Decision Matrix", app_sub: "Stop guessing — let the numbers decide.",
+        floors_label: "Floors built",
+        scr1_buyer_title: "📋 Property to Buy", scr1_seller_title: "📋 Your Current Property", scr1_switcher_title: "📋 Current Property & Settings",
+        missing_data: "⚠️ Missing data", invalid_data: "⚠️ Invalid data",
+        err_price: "⚠️ Please enter the property price first", err_mv: "⚠️ Please enter the current market value first",
+        err_loan_exceeds: "⚠️ Loan exceeds property value — invalid data", err_all_required: "⚠️ Please fill in all required fields",
+        err_loan_old: "⚠️ Loan exceeds the current property value", err_dp_exceeds: "⚠️ Down payment exceeds available cash after sale",
+        err_funding: "⚠️ Financing not feasible", err_safe_rate: "⚠️ Please enter the Bank Deposit Return rate",
+        err_new_price: "⚠️ Please enter the new property price", err_new_rent: "⚠️ Please enter the new property rent",
+        err_buyer_required: "⚠️ Purchase Price and Annual Rent are required",
+        err_dp_gt_price: "⚠️ Down payment cannot exceed purchase price",
+        strong_buy: "🟢 Strong Deal — Buy with confidence", good_buy: "✅ Good Deal — Buy carefully",
+        medium: "🟡 Average Deal — Needs better negotiation", weak: "🔵 Currently weak — Wait or improve terms",
+        avoid: "🔴 Avoid — Return doesn't justify the risk",
+        hold_best: "🟢 Hold — Better than selling", unclear: "🟡 Unclear — Negotiate or wait",
+        sell_liquidity: "🔴 Sell — Move to liquidity", sell_bank: "🔴 Sell — Bank return is currently better",
+        switch_now: "🔄 Switch Now — New deal is better", switch_maybe: "🟡 Switch possible but advantage is limited",
+        switch_no: "🔵 Don't switch — Current property is better",
+        kpi_title: "📌 Key Investment Metrics", proj_title: "📅 Projection",
+        scenario_title: "🧠 Scenario Analysis (Best / Base / Worst)", risk_title: "⚠️ Risk Flags",
+        stress_title: "📉 Interest Rate Stress Test", summary_title: "📝 Executive Summary",
+        confidence_title: "🎯 Confidence", no_risk_flags: "✅ No major risk flags detected.",
+        base_case: "Base", best_case: "Best", worst_case: "Worst", scenario_col: "Scenario", rate_col: "Rate",
+        irr: "📈 IRR (Internal Rate of Return)", npv: "💰 NPV (Net Present Value)",
+        coc: "📊 Cash-on-Cash (Net CF / Equity)", dscr: "🏦 DSCR (Min Debt Service Coverage)",
+        loan: "🏦 Loan Amount", score: "⭐ Decision Score", equity: "🔑 Equity", tax: "🧾 Estimated Tax",
+        net_sell: "💵 Net Cash if Sold", bank_bench: "🏦 Bank Return (Benchmark)",
+        switch_cost: "🔁 Switching Cost", investable: "💵 Investable Cash",
+        year: "Year", prop_value: "Property Value", eff_rent: "Effective Rent", noi: "NOI", net_cf: "Net Cashflow",
+        conf_high: "High confidence", conf_med: "Medium confidence", conf_low: "Low confidence",
+        rf_dscr: "🔴 DSCR below 1.1 — dangerous debt pressure on cashflow",
+        rf_vac: "🟡 High downside asymmetry — income instability likely",
+        rf_bank: "🟡 Cash-on-Cash below bank return — safe alternative is stronger",
+        rf_irr_low: "🔴 Low IRR — fragile deal that doesn't justify the risk",
+        rf_negative: "🔴 Negative NPV — deal destroys value at current prices",
+        rf_exit: "🟡 Worst case too fragile — beware of delayed exit",
+        note_disc: "NPV calculated at discount rate", note_years: "for", note_years2: "years.",
+        note_compare: "Hold vs. Bank return", hold_vs_sell: "📊 Hold vs. Sell Analysis",
+        warning_var_rate: "⚠️ Variable rate detected: include rate-hike scenarios in your risk assessment.",
+        warning_var_sell: "⚠️ Variable rate: selling may be preferable if you fear rising payments.",
+        comparison_table: "📊 Decision Comparison", current_prop: "Current", new_prop: "New",
+        current_score: "⭐ Decision Score — Current Property", new_score: "⭐ Decision Score — New Property",
+        current_irr: "📈 IRR — Current Property", new_irr: "📈 IRR — New Property",
+        new_loan: "🏦 New Loan Amount", decision_switch_note: "Switch decision based on a 10-point score gap (= clear outperformance).",
+        gauge_strong: "Strong Deal", gauge_good: "Good Deal", gauge_avg: "Average", gauge_weak: "Weak", gauge_avoid: "Avoid",
+        exec_strong: "Strong deal — IRR of <b>{irr}</b> clearly outperforms the bank (<b>{safe}</b>). Act now before conditions shift.",
+        exec_good: "Good deal, not exceptional — IRR <b>{irr}</b>. Worst-case drops to <b>{wirr}</b>. Try to improve financing or reduce vacancy.",
+        exec_medium: "Gray zone — IRR <b>{irr}</b> nearly matches bank return (<b>{safe}</b>). Negotiate price or improve cashflow before committing.",
+        exec_weak: "Weak deal — worst-case IRR <b>{wirr}</b>. Do not proceed without renegotiating or materially improving cashflow.",
+        exec_avoid: "Avoid this deal — returns don't justify risks even in the best case. Bank at <b>{safe}</b> is safer right now.",
+        exec_conf: "Confidence: <b>{conf}</b> ({pct}%) — based on scenario spread.",
+        premium_label: "AQAR Decision Engine • Full Analysis",
+      };
+
+      function T(key) { return STRINGS[key] || key; }
+
+      const canvas = document.getElementById('city-canvas'), ctx = canvas.getContext('2d');
+      function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+      resizeCanvas(); window.addEventListener('resize', () => { resizeCanvas(); drawScene(); });
+      let currentScreen = 0, role = null, cityProgress = 0, decisionColor = null, animFrame = null;
+      let fieldsFilled = { 0: 0, 1: 0, 2: 0 }, fieldsTotal = { 0: 1, 1: 0, 2: 0 };
+      const windowSeeds = [];
+      function ensureSeed(ti, fi) { if (!windowSeeds[ti]) windowSeeds[ti] = []; while (windowSeeds[ti].length <= fi) windowSeeds[ti].push(Math.random()); return windowSeeds[ti][fi]; }
+      function drawSky() {
+        const W=canvas.width,H=canvas.height,g=ctx.createLinearGradient(0,0,0,H);
+        g.addColorStop(0,'#020817');g.addColorStop(0.5,'#0a1628');g.addColorStop(1,'#111d33');
+        ctx.fillStyle=g;ctx.fillRect(0,0,W,H);ctx.fillStyle='rgba(255,255,255,0.5)';
+        for(let i=0;i<80;i++){const sx=((i*7919+1049)%W),sy=((i*6271+3041)%(H*0.65)),sr=0.4+(i%3)*0.5,tw=0.3+0.7*Math.abs(Math.sin(Date.now()/2000+i));ctx.globalAlpha=tw*0.7;ctx.beginPath();ctx.arc(sx,sy,sr,0,Math.PI*2);ctx.fill();}
+        ctx.globalAlpha=1;
+      }
+      function drawGround(gy){const W=canvas.width,g=ctx.createLinearGradient(0,gy-40,0,gy+20);g.addColorStop(0,'rgba(20,40,70,0.6)');g.addColorStop(0.5,'rgba(10,20,40,0.9)');g.addColorStop(1,'rgba(5,10,20,1)');ctx.fillStyle=g;ctx.fillRect(0,gy-20,W,canvas.height-gy+20);const lg=ctx.createLinearGradient(0,0,W,0);lg.addColorStop(0,'transparent');lg.addColorStop(0.3,'rgba(0,180,210,0.3)');lg.addColorStop(0.5,'rgba(0,200,230,0.5)');lg.addColorStop(0.7,'rgba(0,180,210,0.3)');lg.addColorStop(1,'transparent');ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(W,gy);ctx.strokeStyle=lg;ctx.lineWidth=1.5;ctx.stroke();}
+      function drawWindow(wx,wy,ww,wh,seed,theme,isTop){let f,s;if(isTop){if(theme==='gold'){f='rgba(240,192,64,0.55)';s='rgba(240,192,64,0.9)';}else if(theme==='red'){f='rgba(255,80,100,0.45)';s='rgba(255,80,100,0.8)';}else if(theme==='green'){f='rgba(0,200,120,0.45)';s='rgba(0,200,120,0.8)';}else{f='rgba(80,180,240,0.45)';s='rgba(80,180,240,0.8)';}}else{const r=seed;if(r>0.7){f='rgba(240,180,40,0.28)';s='rgba(240,180,40,0.55)';}else if(r>0.45){f='rgba(60,180,230,0.22)';s='rgba(60,180,230,0.45)';}else if(r>0.25){f='rgba(220,210,190,0.18)';s='rgba(220,210,190,0.35)';}else{f='rgba(10,25,60,0.7)';s='rgba(40,80,140,0.15)';}}ctx.beginPath();ctx.moveTo(wx+2,wy);ctx.lineTo(wx+ww-2,wy);ctx.quadraticCurveTo(wx+ww,wy,wx+ww,wy+3);ctx.lineTo(wx+ww,wy+wh);ctx.lineTo(wx,wy+wh);ctx.lineTo(wx,wy+3);ctx.quadraticCurveTo(wx,wy,wx+2,wy);ctx.closePath();ctx.fillStyle=f;ctx.fill();ctx.strokeStyle=s;ctx.lineWidth=0.7;ctx.stroke();}
+      function drawTower(cx,gy,w,built,total,theme,isMain){if(total<=0||built<=0)return;const FH=20,x=cx-w/2;for(let f=0;f<built;f++){const fy=gy-(f+1)*FH,isTop=f===built-1,bg=ctx.createLinearGradient(x,fy,x,fy+FH);bg.addColorStop(0,isTop?'rgba(28,58,108,0.9)':'rgba(20,44,86,0.87)');bg.addColorStop(1,isTop?'rgba(18,40,82,0.95)':'rgba(12,26,62,0.93)');ctx.fillStyle=bg;ctx.fillRect(x,fy,w,FH);ctx.strokeStyle=isTop?'rgba(60,130,210,0.5)':'rgba(50,110,190,0.18)';ctx.lineWidth=isTop?1.3:0.5;ctx.strokeRect(x,fy,w,FH);const ww=w/13,wh=FH*0.6,wg=(w-5*ww)/6;for(let c=0;c<5;c++){const sd=ensureSeed(isMain?0:1,f*5+c);drawWindow(x+wg+c*(ww+wg),fy+(FH-wh)/2,ww,wh,sd,theme,isTop);}}const topY=gy-built*FH,tgl=ctx.createLinearGradient(x,0,x+w,0);tgl.addColorStop(0,'transparent');tgl.addColorStop(0.5,theme==='gold'?'rgba(240,192,64,0.7)':theme==='red'?'rgba(255,60,90,0.6)':theme==='green'?'rgba(0,184,110,0.6)':'rgba(60,180,240,0.6)');tgl.addColorStop(1,'transparent');ctx.beginPath();ctx.moveTo(x,topY+FH);ctx.lineTo(x+w,topY+FH);ctx.strokeStyle=tgl;ctx.lineWidth=2.2;ctx.stroke();ctx.fillStyle='rgba(12,28,66,0.97)';ctx.fillRect(x-10,gy-FH,w+20,FH);ctx.strokeStyle='rgba(60,130,210,0.35)';ctx.lineWidth=1;ctx.strokeRect(x-10,gy-FH,w+20,FH);}
+      function drawDome(cx,topY,w,theme){const domeH=w*0.55,domeY=topY-domeH,dg=ctx.createLinearGradient(cx,domeY,cx,topY);if(theme==='gold'){dg.addColorStop(0,'rgba(240,192,64,0.9)');dg.addColorStop(0.6,'rgba(200,140,20,0.7)');dg.addColorStop(1,'rgba(160,100,10,0.4)');}else if(theme==='red'){dg.addColorStop(0,'rgba(255,80,100,0.85)');dg.addColorStop(0.6,'rgba(200,50,70,0.65)');dg.addColorStop(1,'rgba(150,30,50,0.35)');}else if(theme==='green'){dg.addColorStop(0,'rgba(0,200,120,0.85)');dg.addColorStop(0.6,'rgba(0,150,90,0.65)');dg.addColorStop(1,'rgba(0,100,60,0.35)');}else{dg.addColorStop(0,'rgba(80,180,240,0.85)');dg.addColorStop(0.6,'rgba(40,120,200,0.65)');dg.addColorStop(1,'rgba(20,80,160,0.35)');}ctx.beginPath();ctx.moveTo(cx-w/2,topY);ctx.quadraticCurveTo(cx-w/2,domeY,cx,domeY-8);ctx.quadraticCurveTo(cx+w/2,domeY,cx+w/2,topY);ctx.closePath();ctx.fillStyle=dg;ctx.fill();ctx.beginPath();ctx.moveTo(cx-w/2,topY);ctx.quadraticCurveTo(cx-w/2,domeY,cx,domeY-8);ctx.quadraticCurveTo(cx+w/2,domeY,cx+w/2,topY);ctx.strokeStyle=theme==='gold'?'rgba(255,210,80,0.8)':theme==='red'?'rgba(255,120,140,0.7)':theme==='green'?'rgba(80,255,160,0.7)':'rgba(120,210,255,0.7)';ctx.lineWidth=1.5;ctx.stroke();}
+      function drawCrane(x,topY,swing){const bx=x-18,by=topY-10;ctx.strokeStyle='rgba(180,180,190,0.4)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(bx,by);ctx.lineTo(bx,by-50);ctx.stroke();ctx.beginPath();ctx.moveTo(bx,by-50);ctx.lineTo(bx+40+swing*10,by-55);ctx.stroke();ctx.beginPath();ctx.moveTo(bx+40+swing*10,by-55);ctx.lineTo(bx+40+swing*10,by+20);ctx.strokeStyle='rgba(180,180,190,0.2)';ctx.stroke();}
+      function drawBridge(x1,y1,x2,y2,alpha){if(alpha<=0)return;const my=(y1+y2)/2-10;ctx.globalAlpha=alpha;ctx.strokeStyle='rgba(212,146,14,0.7)';ctx.lineWidth=1.5;ctx.setLineDash([4,6]);ctx.beginPath();ctx.moveTo(x1,y1);ctx.quadraticCurveTo((x1+x2)/2,my-20,x2,y2);ctx.stroke();ctx.setLineDash([]);ctx.globalAlpha=1;}
+      function drawBeacon(cx,topY,colorStr,intensity){const pulse=0.4+0.6*Math.abs(Math.sin(Date.now()/700)),r=22*intensity,grad=ctx.createRadialGradient(cx,topY-r/2,0,cx,topY-r/2,r);grad.addColorStop(0,colorStr.replace('0.',`${pulse*0.75}`));grad.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=grad;ctx.fillRect(cx-r,topY-r,r*2,r*2);ctx.beginPath();ctx.arc(cx,topY-r/2,4,0,Math.PI*2);ctx.fillStyle=colorStr.replace('0.',`${pulse}`);ctx.fill();}
+      function drawScene(){const W=canvas.width,H=canvas.height;ctx.clearRect(0,0,W,H);drawSky();const p=cityProgress,scale=1.0+p*0.55,ty=-p*340,gy=H*0.82;ctx.save();const cx2=W/2,cy2=gy+ty;ctx.translate(cx2,cy2);ctx.scale(scale,scale);ctx.translate(-cx2,-cy2);drawGround(gy);const cxM=W/2,cxL=cxM-200,cxR=cxM+200,twM=90,twS=55,isComplete=currentScreen>=3,lfT=6,lfB=Math.min(lfT,Math.round(p*lfT*1.2));if(lfB>0){drawTower(cxL,gy,twS,lfB,lfT,'blue',false);if(isComplete)drawDome(cxL,gy-lfB*20,twS,'blue');}const cT=fieldsTotal[1]||1,cB=Math.min(cT,Math.round(fieldsFilled[1]+(currentScreen>1?cT*0.3:0))),cBC=isComplete?cT:cB,cTheme=decisionColor==='sell'?'red':decisionColor==='hold'?'blue':decisionColor==='caution'?'gold':(role==='buyer')?'gold':'blue';if(cBC>0&&(role==='seller'||role==='switcher'||(role==='buyer'&&currentScreen>=1))){drawTower(cxM,gy,twM,Math.min(cBC,cT),cT,cTheme,true);if(cBC<cT&&cBC>0&&!isComplete)drawCrane(cxM+twM/2,gy-cBC*20,Math.sin(Date.now()/2000));if(isComplete)drawDome(cxM,gy-cT*20,twM,cTheme);}const rT=fieldsTotal[2]||1,rB=Math.min(rT,Math.round(fieldsFilled[2])),rBC=isComplete?rT:rB,rTheme=decisionColor==='buy'?'gold':decisionColor==='sell'?'red':'green';if(rBC>0&&role==='switcher'){drawTower(cxR,gy,twS,Math.min(rBC,rT),rT,rTheme,false);if(rBC<rT&&rBC>0&&!isComplete)drawCrane(cxR+twS/2,gy-rBC*20,Math.cos(Date.now()/1800));if(isComplete)drawDome(cxR,gy-rT*20,twS,rTheme);}if(isComplete&&role==='switcher'){drawBridge(cxM,gy-cT*20,cxR,gy-rT*20,0.5+0.5*Math.abs(Math.sin(Date.now()/1500)));}if(isComplete&&decisionColor){let bx,by,bc;if(decisionColor==='buy'&&role==='switcher'){bx=cxR;by=gy-rT*20;bc='rgba(240,192,64,0.85)';}else if(decisionColor==='sell'){bx=cxM;by=gy-cT*20;bc='rgba(255,60,90,0.85)';}else if(decisionColor==='hold'||decisionColor==='caution'){bx=cxM;by=gy-cT*20;bc=decisionColor==='caution'?'rgba(240,192,64,0.85)':'rgba(60,180,240,0.85)';}else if(decisionColor==='buy'&&role==='buyer'){bx=cxM;by=gy-cT*20;bc='rgba(240,192,64,0.85)';}if(bx)drawBeacon(bx,by-14,bc,1);}ctx.restore();}
+      function startLoop(){if(animFrame)return;function tick(){drawScene();animFrame=requestAnimationFrame(tick);}animFrame=requestAnimationFrame(tick);}
+      function stopLoop(){if(animFrame){cancelAnimationFrame(animFrame);animFrame=null;}}
+      function updateCityProgress(){const tf=fieldsTotal[0]+fieldsTotal[1]+fieldsTotal[2],ff=fieldsFilled[0]+fieldsFilled[1]+fieldsFilled[2];cityProgress=tf>0?Math.min(1,ff/tf):0;document.getElementById('fc-n').textContent=ff;document.getElementById('fc-t').textContent=tf;drawScene();}
+      function countVisibleFields(si){let c=0;const scr=document.getElementById('scr'+si);if(!scr)return 0;scr.querySelectorAll('input[type="number"], select').forEach(el=>{if(!el.closest('.hidden'))c++;});return c;}
+      function recountScreen(si){fieldsTotal[si]=countVisibleFields(si);let f=0;const scr=document.getElementById('scr'+si);if(scr)scr.querySelectorAll('input[type="number"], select').forEach(el=>{if(el.closest('.hidden'))return;if(el.value.trim()!==''&&!isNaN(parseFloat(el.value)))f++;});fieldsFilled[si]=f;updateCityProgress();}
+      function onAnyFieldChange(){recountScreen(currentScreen);if(fieldsFilled[currentScreen]>=fieldsTotal[currentScreen]&&fieldsTotal[currentScreen]>0)startLoop();saveState();}
+      function attachFieldListeners(){document.querySelectorAll('input[type="number"], select').forEach(el=>{const clone=el.cloneNode(true);if(el.parentNode)el.parentNode.replaceChild(clone,el);clone.addEventListener('input',onAnyFieldChange);clone.addEventListener('change',onAnyFieldChange);});document.querySelectorAll('.tip').forEach(tip=>{tip.onclick=function(){const tid=this.dataset.target;if(tid){const inp=document.getElementById(tid);if(inp&&inp.value.trim()===''){inp.value='3';inp.dispatchEvent(new Event('input'));inp.dispatchEvent(new Event('change'));}}};});}
+      function showScreen(idx){document.querySelectorAll('.scr').forEach((s,i)=>s.classList.toggle('on',i===idx));[0,1,2,3].forEach(i=>{const d=document.getElementById('pd'+i);d.classList.remove('active','done');if(i<idx)d.classList.add('done');if(i===idx)d.classList.add('active');});currentScreen=idx;recountScreen(idx);attachFieldListeners();if(idx>=3){startLoop();window.scrollTo({top:0,behavior:'smooth'});}}
+
+      function sanitizeNumber(value,defaultValue=0,min=0,max=Infinity){let num=parseFloat(value);if(isNaN(num))return defaultValue;return Math.min(max,Math.max(min,num));}
+      function gv(id,defaultVal=0,min=0,max=Infinity){const e=document.getElementById(id);if(!e)return defaultVal;return sanitizeNumber(e.value,defaultVal,min,max);}
+      function fm(n){if(!isFinite(n))return'0';return Number(n).toLocaleString('en-US',{maximumFractionDigits:0});}
+      function fp(n){if(isNaN(n)||!isFinite(n))return'0.0%';return Number(n).toFixed(1)+'%';}
+      function clampPercent(p){if(!isFinite(p))return 0;if(p<0)return 0;if(p>100)return 100;return p;}
+
+      function npv(rate,cashflows){if(!cashflows||cashflows.length===0)return 0;let total=0;for(let t=0;t<cashflows.length;t++){total+=cashflows[t]/Math.pow(1+rate,t);}return total;}
+      function npvDerivative(rate,cashflows){let total=0;for(let t=1;t<cashflows.length;t++){total-=t*cashflows[t]/Math.pow(1+rate,t+1);}return total;}
+      function irr(cashflows){let guess=0.10;for(let i=0;i<1000;i++){const npvVal=npv(guess,cashflows),deriv=npvDerivative(guess,cashflows);if(Math.abs(deriv)<1e-10)break;const newGuess=guess-npvVal/deriv;if(Math.abs(newGuess-guess)<1e-8)return Math.max(-0.5, Math.min(3.0, newGuess));guess=newGuess;}return Math.max(-0.5, Math.min(3.0, guess));}
+      function mortgagePayment(principal,annualRate,years){if(principal<=0||annualRate<=0||years<=0)return 0;const r=(annualRate/100)/12,n=years*12;if(r===0)return principal/n;return principal*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);}
+      function remainingLoanBalance(originalLoan,annualRate,totalYears,paymentsMade){if(originalLoan<=0||annualRate<=0)return 0;const r=(annualRate/100)/12,totalN=totalYears*12,payment=mortgagePayment(originalLoan,annualRate,totalYears);let balance=originalLoan;const pmtCount=Math.min(paymentsMade,totalN);for(let i=0;i<pmtCount;i++){const interest=balance*r,principal=payment-interest;balance-=principal;if(balance<0)balance=0;}return balance;}
+      function buildProjection({P,DP,CF,CG,RG,Vac,OpEx,IR,LT,holdYears,exitCost}){const years=Math.max(1,Math.floor(holdYears)),vacRate=Vac/100,opRate=OpEx/100,rentGrowth=RG/100,capGrowth=CG;let price=P,rent=CF;const downPayment=Math.max(0,DP||0),loan=(IR>0&&LT>0)?Math.max(0,P-downPayment):0,paymentMonthly=(loan>0)?mortgagePayment(loan,IR,LT):0,annualDebt=paymentMonthly*12,cashflows=[];cashflows.push(-downPayment);const rows=[];for(let y=1;y<=years;y++){if(y===1){rent=CF;}else{price=price*(1+capGrowth);rent=rent*(1+rentGrowth);}const effectiveRent=rent*(1-vacRate),opCost=effectiveRent*opRate,noi=effectiveRent-opCost,netCash=noi-annualDebt;rows.push({year:y,price:price,rent:effectiveRent,noi:noi,debt:annualDebt,net:netCash});cashflows.push(netCash);}const exitValueGross=price,exitFees=exitValueGross*(exitCost/100),exitValueNet=exitValueGross-exitFees,remainingLoan=loan>0?remainingLoanBalance(loan,IR,LT,years*12):0;cashflows[cashflows.length-1]=Math.max(0, cashflows[cashflows.length-1]+exitValueNet-remainingLoan);return{rows,cashflows,exitValueNet,annualDebt,loan,remainingLoan};}
+      function scoreDecision(metrics){let score=0;if(metrics.irr>=0.18)score+=40;else if(metrics.irr>=0.14)score+=32;else if(metrics.irr>=0.10)score+=22;else if(metrics.irr>=0.07)score+=12;else score+=5;if(metrics.coc>=0.12)score+=25;else if(metrics.coc>=0.08)score+=18;else if(metrics.coc>=0.05)score+=12;else score+=5;if(metrics.dscr===999)score+=20;else if(metrics.dscr>=1.4)score+=20;else if(metrics.dscr>=1.2)score+=14;else if(metrics.dscr>=1.0)score+=6;if(metrics.vacancy>=0.15)score-=8;if(metrics.exitCost>=0.08)score-=5;if(metrics.noi<=0)score-=10;score=Math.max(0,Math.min(100,score));return score;}
+      function decisionFromScore(score){if(score>=80)return{cls:'buy',dec:T('strong_buy')};if(score>=60)return{cls:'buy',dec:T('good_buy')};if(score>=45)return{cls:'caution',dec:T('medium')};if(score>=30)return{cls:'hold',dec:T('weak')};return{cls:'sell',dec:T('avoid')};}
+      function buildScenarioPack(baseInput){const base=JSON.parse(JSON.stringify(baseInput)),best=JSON.parse(JSON.stringify(baseInput));best.CG=Math.min(0.25,(baseInput.CG||0)+0.02);best.Vac=Math.max(0,(baseInput.Vac||8)-5);best.OpEx=Math.max(0,(baseInput.OpEx||18)-3);best.RG=(baseInput.RG||2)+1;const worst=JSON.parse(JSON.stringify(baseInput));worst.CG=Math.max(-0.05,(baseInput.CG||0)-0.03);worst.Vac=Math.min(40,(baseInput.Vac||8)+10);worst.OpEx=Math.min(60,(baseInput.OpEx||18)+7);worst.RG=Math.max(0,(baseInput.RG||2)-1);return{best,base,worst};}
+      function computeMinDSCR(proj){let minDSCR=999;proj.rows.forEach(row=>{if(row.debt>0){const dscr=row.noi/row.debt;if(isFinite(dscr)&&dscr<minDSCR)minDSCR=dscr;}});return minDSCR===999?999:(isFinite(minDSCR)?minDSCR:0);}
+      function computeScenarioResults(pack,disc,holdYears){const out={};['best','base','worst'].forEach(k=>{const inp=pack[k],proj=buildProjection({P:inp.P,DP:inp.DP,CF:inp.CF,CG:inp.CG,RG:inp.RG,Vac:inp.Vac,OpEx:inp.OpEx,IR:inp.IR,LT:inp.LT,holdYears:holdYears,exitCost:inp.exitCost}),irrVal=irr(proj.cashflows),npvVal=npv(disc,proj.cashflows),equity=inp.DP>0?inp.DP:inp.P,coc=equity>0?(proj.rows[0].net/equity):0,dscr=computeMinDSCR(proj),score=scoreDecision({irr:irrVal,coc:coc,dscr:dscr,vacancy:(inp.Vac||0)/100,exitCost:(inp.exitCost||0)/100,noi:proj.rows[0].noi});out[k]={irr:irrVal,npv:npvVal,coc:coc,dscr:dscr,score:score,loan:proj.loan};});return out;}
+      function computeConfidence(scen){const base=scen.base.score,spread=Math.abs(scen.best.score-scen.worst.score);let conf=100-spread;conf=Math.max(10,Math.min(95,conf));return conf;}
+      function confidenceLabel(conf){if(conf>=75)return T('conf_high');if(conf>=55)return T('conf_med');return T('conf_low');}
+      function riskFlags(scen,safeRate){const flags=[],base=scen.base;if(base.dscr!==999&&base.dscr<1.10)flags.push(T('rf_dscr'));if(base.coc<safeRate)flags.push(T('rf_bank'));if(base.npv<0)flags.push(T('rf_negative'));if(base.irr<0.09)flags.push(T('rf_irr_low'));if(Math.abs(scen.best.score-scen.base.score)<5&&Math.abs(scen.base.score-scen.worst.score)>15)flags.push(T('rf_vac'));if(scen.worst.score<35)flags.push(T('rf_exit'));return Array.from(new Set(flags)).slice(0,6);}
+      function buildScenarioTable(scen){const row=(label,s)=>`<tr><td>${label}</td><td>${fp(s.irr*100)}</td><td>${fm(s.npv)}</td><td>${fp(s.coc*100)}</td><td>${s.dscr===999?'—':s.dscr.toFixed(2)}</td><td>${s.score}/100</td></tr>`;return`<table class="mtable"><tr class="sec-hd"><td colspan="6">${T('scenario_title')}</td></tr><tr><td><b>${T('scenario_col')}</b></td><td><b>${T('irr')}</b></td><td><b>${T('npv')}</b></td><td><b>${T('coc')}</b></td><td><b>${T('dscr')}</b></td><td><b>${T('score')}</b></td></tr>${row(T('best_case'),scen.best)}${row(T('base_case'),scen.base)}${row(T('worst_case'),scen.worst)}</table>`;}
+      function buildRiskFlagsBlock(flags){if(!flags||flags.length===0){return`<div class="r-foot" style="border:none;margin-top:8px;padding-top:0;color:rgba(0,184,110,0.9)">${T('no_risk_flags')}</div>`;}const items=flags.map(f=>`<div style="padding:6px 10px;margin:6px 0;border-radius:12px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.12);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);font-size:12px;color:rgba(220,230,245,0.92)">${f}</div>`).join('');return`<div style="margin-top:12px"><div style="color:rgba(212,146,14,0.95);font-weight:900;font-size:12px;letter-spacing:1px;margin-bottom:8px">${T('risk_title')}</div>${items}</div>`;}
+      function buildStressTestBlock(baseInput,disc,holdYears){if(!(baseInput.IR>0)||!(baseInput.LT>0))return'';const rates=[baseInput.IR,baseInput.IR+2,baseInput.IR+4];const rows=rates.map(r=>{const proj=buildProjection({P:baseInput.P,DP:baseInput.DP,CF:baseInput.CF,CG:baseInput.CG,RG:baseInput.RG,Vac:baseInput.Vac,OpEx:baseInput.OpEx,IR:r,LT:baseInput.LT,holdYears:holdYears,exitCost:baseInput.exitCost}),irrVal=irr(proj.cashflows),equity=baseInput.DP>0?baseInput.DP:baseInput.P,coc=equity>0?(proj.rows[0].net/equity):0,dscr=computeMinDSCR(proj),score=scoreDecision({irr:irrVal,coc:coc,dscr:dscr,vacancy:(baseInput.Vac||0)/100,exitCost:(baseInput.exitCost||0)/100,noi:proj.rows[0].noi});return`<tr><td>${r.toFixed(1)}%</td><td>${fp(irrVal*100)}</td><td>${fp(coc*100)}</td><td>${dscr===999?'—':dscr.toFixed(2)}</td><td>${score}/100</td></tr>`;}).join('');return`<table class="mtable"><tr class="sec-hd"><td colspan="5">${T('stress_title')}</td></tr><tr><td><b>${T('rate_col')}</b></td><td><b>${T('irr')}</b></td><td><b>${T('coc')}</b></td><td><b>${T('dscr')}</b></td><td><b>${T('score')}</b></td></tr>${rows}</table>`;}
+      function buildScoreGauge(score,cls){const colorMap={buy:'#00b86e',caution:'#d4920e',hold:'#3c8cdc',sell:'#ff3c5a'},color=colorMap[cls]||'#d4920e',circ=Math.PI*54,pct=Math.max(0,Math.min(100,score))/100,dash=pct*circ,gap=circ-dash;let lkey=score>=80?'gauge_strong':score>=60?'gauge_good':score>=45?'gauge_avg':score>=30?'gauge_weak':'gauge_avoid';return`<div style="display:flex;flex-direction:column;align-items:center;margin:10px 0 4px"><svg width="140" height="84" viewBox="0 0 140 84" style="overflow:visible"><path d="M16 72 A54 54 0 0 1 124 72" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="11" stroke-linecap="round"/><path d="M16 72 A54 54 0 0 1 124 72" fill="none" stroke="${color}" stroke-width="11" stroke-linecap="round" stroke-dasharray="${dash.toFixed(1)} ${gap.toFixed(1)}" style="filter:drop-shadow(0 0 7px ${color})"/><text x="70" y="67" text-anchor="middle" font-size="27" font-weight="900" font-family="monospace" fill="${color}">${score}</text><text x="70" y="79" text-anchor="middle" font-size="9" font-family="Inter,sans-serif" fill="rgba(138,154,176,0.65)">/100</text></svg><div style="font-size:11px;letter-spacing:1px;color:${color};margin-top:2px">${T(lkey)}</div></div>`;}
+      function buildExecutiveSummary(role,base,scen,safeRate,holdYears){const conf=computeConfidence(scen),confTxt=confidenceLabel(conf),score=base.score,irrPct=fp(base.irr*100),safePct=fp(safeRate*100),wIrrPct=fp(scen.worst.irr*100);let tplKey=score>=80?'exec_strong':score>=60?'exec_good':score>=45?'exec_medium':score>=30?'exec_weak':'exec_avoid';const advice=T(tplKey).replace('{irr}',irrPct).replace('{safe}',safePct).replace('{wirr}',wIrrPct),confLine=T('exec_conf').replace('{conf}',confTxt).replace('{pct}',conf.toFixed(0));return`<div style="margin-top:12px;padding:14px;border-radius:16px;border:1px solid rgba(255,255,255,0.06);background:rgba(0,0,0,0.12);backdrop-filter:blur(2px);-webkit-backdrop-filter:blur(2px);line-height:1.9;font-size:12px;color:rgba(220,230,245,0.95)"><div style="color:rgba(212,146,14,0.95);font-weight:900;margin-bottom:6px">${T('summary_title')}</div>${advice}<br><br>${confLine}</div>`;}
+      function putResult(html,cls,dec,foot,score,conf){const gauge=(typeof score==='number')?buildScoreGauge(score,cls):'',confText=(conf!==undefined&&conf!==null)?confidenceLabel(conf)+' ('+conf.toFixed(0)+'%)':'—';document.getElementById('rHTML').innerHTML=`<div class="r-box ${cls}"><div class="r-decision">${dec}</div>${gauge}<div style="margin-top:4px;font-size:11px;color:rgba(138,154,176,0.8)">${T('confidence_title')}: <b id='confLabel'>${confText}</b></div></div>`+html;document.getElementById('rFoot').innerHTML=foot;const rl=document.querySelector('.result-inline .r-label');if(rl)rl.textContent=T('premium_label');}
+      function showLoading(btnId,show){const btn=document.getElementById(btnId);if(!btn)return;if(show){btn.disabled=true;const originalText=btn.textContent;btn.setAttribute('data-original-text',originalText);btn.innerHTML='<span class="loading"></span> Analyzing...';}else{btn.disabled=false;const originalText=btn.getAttribute('data-original-text');if(originalText)btn.textContent=originalText;else btn.textContent='🧮 Calculate';}}
+
+      // ===== PARSE VALUATION ENGINE DATA =====
+      function parseValuationParams() {
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('referrer') !== 'aqar_valuation') return;
+        
+        const price = parseInt(params.get('price')) || 0;
+        const rent = parseInt(params.get('rent')) || 0;
+        const valuation = parseInt(params.get('valuation')) || 0;
+        const valLow = parseInt(params.get('valLow')) || 0;
+        const valHigh = parseInt(params.get('valHigh')) || 0;
+        const confidence = parseInt(params.get('confidence')) || 0;
+        const methods = parseInt(params.get('methods')) || 0;
+        const capRate = parseFloat(params.get('capRate')) || 0;
+        const vacancy = parseInt(params.get('vacancy')) || 0;
+        const trend = params.get('trend') || '';
+        const classification = params.get('classification') || '';
+        const propType = params.get('type') || '';
+        const city = params.get('city') || '';
+        const district = params.get('district') || '';
+        
+        // Show banner
+        if (valuation > 0) {
+          const banner = document.getElementById('valuationBanner');
+          document.getElementById('valBannerText').innerHTML = 
+            `Fair Value: <b>${valuation.toLocaleString()} AED</b> | ` +
+            `Range: ${valLow.toLocaleString()} - ${valHigh.toLocaleString()} AED | ` +
+            `Confidence: ${confidence}% (${methods} methods) | ` +
+            `${propType} • ${district}, ${city}`;
+          banner.classList.add('show');
+        }
+        
+        // Pre-fill fields
+        if (price > 0) document.getElementById('bP').value = price;
+        if (rent > 0) document.getElementById('bCF').value = rent;
+        if (vacancy > 0) document.getElementById('bVac').value = vacancy;
+        if (capRate > 0) document.getElementById('gSafe').value = capRate;
+        
+        // Smart discount rate based on confidence
+        let discRate = 10;
+        if (confidence >= 85) discRate = 8;
+        else if (confidence >= 70) discRate = 10;
+        else if (confidence >= 50) discRate = 12;
+        else discRate = 15;
+        document.getElementById('gDisc').value = discRate;
+        
+        // Value growth based on classification
+        const growthMap = { luxury: 4, upper: 3.5, middle: 3, budget: 2, industrial: 1.5 };
+        if (classification) document.getElementById('bCG').value = growthMap[classification] || 3;
+        
+        console.log('✅ Valuation data loaded from URL params');
+      }
+
+      function doCalc(){
+        showLoading('btnCalculate',true);
+        setTimeout(()=>{
+          try{
+            let RR=gv('gRR'),Safe=gv('gSafe'),SwC=gv('gSw'),holdYears=gv('gHold'),disc=gv('gDisc');
+            RR=RR>0?RR/100:0.10;Safe=Safe>0?Safe/100:0.05;SwC=SwC>0?SwC/100:0.05;
+            holdYears=Math.max(1, holdYears>0?holdYears:5);
+            disc=disc>0?disc/100:RR;
+            const varR=document.getElementById('gVar').value==='yes';
+            let html='',cls='',dec='',foot='',_score=null;
+
+            if(role==='buyer'){
+              const P=gv('bP'),DP=gv('bDP'),CF=gv('bCF');let CG=gv('bCG')/100;if(gv('bCG')===0&&document.getElementById('bCG').value.trim()==='')CG=0.03;
+              const Vac=gv('bVac')||8,OpEx=gv('bOpEx')||18,RG=gv('bRG')||2,exitCost=gv('bExit')||5,IR=gv('bIR'),LT=gv('bLT');
+              if(!P||P<=0){putResult(`<p style="color:#ff3c5a;text-align:center;padding:16px">${T('err_price')}</p>`,'sell',T('missing_data'),'',null,null);showLoading('btnCalculate',false);return;}
+              if(DP>P){putResult(`<p style="color:#ff3c5a;text-align:center;padding:16px">${T('err_dp_gt_price')}</p>`,'sell',T('invalid_data'),'',null,null);showLoading('btnCalculate',false);return;}
+              const realDP=DP>0?DP:P,proj=buildProjection({P,DP:realDP,CF,CG,RG,Vac,OpEx,IR,LT,holdYears,exitCost}),irrVal=irr(proj.cashflows),npvVal=npv(disc,proj.cashflows),equity=realDP,coc=equity>0?(proj.rows[0].net/equity):0,dscr=computeMinDSCR(proj),score=scoreDecision({irr:irrVal,coc:coc,dscr:dscr,vacancy:Vac/100,exitCost:exitCost/100,noi:proj.rows[0].noi});
+              _score=score;const d=decisionFromScore(score);cls=d.cls;dec=d.dec;decisionColor=cls;
+              const baseInput={P,DP:realDP,CF,CG,RG,Vac,OpEx,IR,LT,exitCost},pack=buildScenarioPack(baseInput),scen=computeScenarioResults(pack,disc,holdYears),conf=computeConfidence(scen),flags=riskFlags(scen,Safe),scenTable=buildScenarioTable(scen),stressBlock=buildStressTestBlock(baseInput,disc,holdYears),risksBlock=buildRiskFlagsBlock(flags),summaryBlock=buildExecutiveSummary(role,scen.base,scen,Safe,holdYears);
+              let projRowsHTML='';proj.rows.forEach(r=>{projRowsHTML+=`<tr><td>${r.year}</td><td>${fm(r.price)}</td><td>${fm(r.rent)}</td><td>${fm(r.noi)}</td><td>${fm(r.net)}</td></tr>`;});
+              html=`<table class="mtable"><tr class="sec-hd"><td colspan="2">${T('kpi_title')}</td></tr><tr><td>${T('irr')}</td><td>${fp(irrVal*100)}</td></tr><tr><td>${T('npv')}</td><td>${fm(npvVal)}</td></tr><tr><td>${T('coc')}</td><td>${fp(coc*100)}</td></tr><tr><td>${T('dscr')}</td><td>${dscr===999?'—':dscr.toFixed(2)}</td></tr><tr><td>${T('loan')}</td><td>${fm(proj.loan)}</td></tr><tr><td>${T('score')}</td><td>${score}/100</td></tr></table><table class="mtable"><tr class="sec-hd"><td colspan="5">${T('proj_title')} ${holdYears} ${T('note_years2')}</td></tr><tr><td><b>${T('year')}</b></td><td><b>${T('prop_value')}</b></td><td><b>${T('eff_rent')}</b></td><td><b>${T('noi')}</b></td><td><b>${T('net_cf')}</b></td></tr>${projRowsHTML}</table>`;
+              html=html+scenTable+stressBlock+risksBlock+summaryBlock;if(varR&&IR>0){html=`<p class="r-warn" style="color:#d4920e">${T('warning_var_rate')}</p>`+html;}
+              foot=`${T('note_disc')} ${(disc*100).toFixed(1)}% ${T('note_years')} ${holdYears} ${T('note_years2')}`;
+            }else if(role==='seller'){
+              const MV=gv('oMV'),Loan=gv('oLoan'),CF=gv('oCF'),PP=gv('oPP');let TaxP=gv('oTax');TaxP=clampPercent(TaxP)/100;let CG=gv('oCG')/100;if(gv('oCG')===0&&document.getElementById('oCG').value.trim()==='')CG=0.03;
+              const Vac=gv('oVac')||8,OpEx=gv('oOpEx')||18,RG=gv('oRG')||2,exitCost=gv('oExit')||5,IR=gv('oIR'),LT=gv('oLT');
+              if(!MV||MV<=0){putResult(`<p style="color:#ff3c5a;text-align:center;padding:16px">${T('err_mv')}</p>`,'sell',T('missing_data'),'',null,null);showLoading('btnCalculate',false);return;}
+              if(Loan>MV){putResult(`<p style="color:#ff3c5a;text-align:center;padding:16px">${T('err_loan_exceeds')}</p>`,'sell',T('invalid_data'),'',null,null);showLoading('btnCalculate',false);return;}
+              const EQ=MV-Loan,profit=(PP>0&&MV>PP)?(MV-PP):0,tax=profit>0?profit*TaxP:0,netIfSell=Math.max(0,EQ-tax),proj=buildProjection({P:MV,DP:EQ,CF,CG,RG,Vac,OpEx,IR,LT,holdYears,exitCost}),irrVal=irr(proj.cashflows),npvVal=npv(disc,proj.cashflows),coc=EQ>0?(proj.rows[0].net/EQ):0,dscr=computeMinDSCR(proj),score=scoreDecision({irr:irrVal,coc:coc,dscr:dscr,vacancy:Vac/100,exitCost:exitCost/100,noi:proj.rows[0].noi});
+              const baseInput={P:MV,DP:EQ,CF,CG,RG,Vac,OpEx,IR,LT,exitCost},pack=buildScenarioPack(baseInput),scen=computeScenarioResults(pack,disc,holdYears),conf=computeConfidence(scen),flags=riskFlags(scen,Safe),scenTable=buildScenarioTable(scen),stressBlock=buildStressTestBlock(baseInput,disc,holdYears),risksBlock=buildRiskFlagsBlock(flags),summaryBlock=buildExecutiveSummary(role,scen.base,scen,Safe,holdYears);
+              let finalCls='',finalDec='';if(score<40&&Safe>0.05){finalCls='sell';finalDec=T('sell_bank');}else if(scen.worst.score<35){finalCls='sell';finalDec=T('sell_liquidity');}else if(conf<50&&scen.base.score<50){finalCls='caution';finalDec=T('unclear');}else if(scen.base.score>=60&&scen.best.score>=75){finalCls='hold';finalDec=T('hold_best');}else{const d=decisionFromScore(score);finalCls=d.cls;finalDec=(score>=60)?T('hold_best'):(score>=45?T('unclear'):T('sell_liquidity'));}
+              cls=finalCls;dec=finalDec;_score=score;decisionColor=cls;
+              html=`<table class="mtable"><tr class="sec-hd"><td colspan="2">${T('hold_vs_sell')}</td></tr><tr><td>${T('equity')}</td><td>${fm(EQ)}</td></tr><tr><td>${T('tax')}</td><td style="color:#ff3c5a">${fm(tax)}</td></tr><tr><td>${T('net_sell')}</td><td>${fm(netIfSell)}</td></tr><tr><td>${T('irr')}</td><td>${fp(irrVal*100)}</td></tr><tr><td>${T('npv')}</td><td>${fm(npvVal)}</td></tr><tr><td>${T('coc')}</td><td>${fp(coc*100)}</td></tr><tr><td>${T('dscr')}</td><td>${dscr===999?'—':dscr.toFixed(2)}</td></tr><tr><td>${T('score')}</td><td>${score}/100}</td></tr><tr><td>${T('bank_bench')}</td><td>${fp(Safe*100)}</td></tr></table>`;
+              html=html+scenTable+stressBlock+risksBlock+summaryBlock;if(varR&&IR>0){html=`<p class="r-warn" style="color:#d4920e">${T('warning_var_sell')}</p>`+html;}
+              foot=`${T('note_compare')} (${(Safe*100).toFixed(1)}%).`;
+            }else if(role==='switcher'){
+              const MV=gv('oMV'),Loan=gv('oLoan'),CF=gv('oCF'),PP=gv('oPP');let TaxP=gv('oTax');const Pn=gv('nP'),DPn=gv('nDP'),CFn=gv('nCF');TaxP=clampPercent(TaxP)/100;let CG=gv('oCG')/100;if(gv('oCG')===0&&document.getElementById('oCG').value.trim()==='')CG=0.03;let CGn=gv('nCG')/100;if(gv('nCG')===0&&document.getElementById('nCG').value.trim()==='')CGn=0.03;
+              const Vac=gv('oVac')||8,OpEx=gv('oOpEx')||18,RG=gv('oRG')||2,exitCost=gv('oExit')||5,nVac=gv('nVac')||8,nOpEx=gv('nOpEx')||18,nRG=gv('nRG')||2,nExit=gv('nExit')||5,IR=gv('oIR'),LT=gv('oLT'),nIR=gv('nIR'),nLT=gv('nLT');
+              if(!MV||MV<=0||!Pn||Pn<=0){putResult(`<p style="color:#ff3c5a;text-align:center;padding:16px">${T('err_all_required')}</p>`,'sell',T('missing_data'),'',null,null);showLoading('btnCalculate',false);return;}
+              if(Loan>MV){putResult(`<p style="color:#ff3c5a;text-align:center;padding:16px">${T('err_loan_old')}</p>`,'sell',T('invalid_data'),'',null,null);showLoading('btnCalculate',false);return;}
+              const EQ=MV-Loan,profit=(PP>0&&MV>PP)?(MV-PP):0,tax=profit>0?profit*TaxP:0,netEquity=Math.max(0,EQ-tax),switchCost=(MV+Pn)*SwC,investable=Math.max(0,netEquity-switchCost);
+              if(DPn>0&&DPn>investable){putResult(`<p style="color:#ff3c5a;text-align:center;padding:16px">${T('err_dp_exceeds')}</p>`,'sell',T('err_funding'),'',null,null);showLoading('btnCalculate',false);return;}
+              const projOld=buildProjection({P:MV,DP:EQ,CF,CG,RG,Vac,OpEx,IR,LT,holdYears,exitCost}),projNew=buildProjection({P:Pn,DP:DPn>0?DPn:Pn,CF:CFn,CG:CGn,RG:nRG,Vac:nVac,OpEx:nOpEx,IR:nIR,LT:nLT,holdYears,exitCost:nExit}),irrOld=irr(projOld.cashflows),irrNew=irr(projNew.cashflows),scoreOld=scoreDecision({irr:irrOld,coc:EQ>0?projOld.rows[0].net/EQ:0,dscr:computeMinDSCR(projOld),vacancy:Vac/100,exitCost:exitCost/100,noi:projOld.rows[0].noi}),scoreNew=scoreDecision({irr:irrNew,coc:(DPn>0?DPn:Pn)>0?projNew.rows[0].net/(DPn>0?DPn:Pn):0,dscr:computeMinDSCR(projNew),vacancy:nVac/100,exitCost:nExit/100,noi:projNew.rows[0].noi});
+              _score=scoreNew;if(scoreNew>=scoreOld+10){cls='buy';dec=T('switch_now');}else if(scoreNew>scoreOld){cls='caution';dec=T('switch_maybe');}else{cls='hold';dec=T('switch_no');}decisionColor=cls;
+              const baseInputOld={P:MV,DP:EQ,CF,CG,RG,Vac,OpEx,IR,LT,exitCost},packOld=buildScenarioPack(baseInputOld),scenOld=computeScenarioResults(packOld,disc,holdYears),conf=computeConfidence(scenOld),risksBlock=buildRiskFlagsBlock(riskFlags(scenOld,Safe)),summaryBlock=buildExecutiveSummary(role,scenOld.base,scenOld,Safe,holdYears);
+              html=`<table class="mtable"><tr class="sec-hd"><td colspan="2">${T('comparison_table')}</td></tr><tr><td>⭐ ${T('score')} ${T('current_prop')}</td><td>${scoreOld}/100</td></tr><tr><td>⭐ ${T('score')} ${T('new_prop')}</td><td>${scoreNew}/100</td></tr><tr><td>${T('current_irr')}</td><td>${fp(irrOld*100)}</td></tr><tr><td>${T('new_irr')}</td><td>${fp(irrNew*100)}</td></tr><tr><td>${T('new_loan')}</td><td>${fm(projNew.loan)}</td></tr><tr><td>${T('tax')}</td><td style="color:#ff3c5a">${fm(tax)}</td></tr><tr><td>${T('switch_cost')}</td><td style="color:#ff3c5a">${fm(switchCost)}</td></tr><tr><td>${T('investable')}</td><td>${fm(investable)}</td></tr></table>`;
+              html=html+risksBlock+summaryBlock;foot=`${T('decision_switch_note')}`;
+            }
+            putResult(html,cls,dec,foot,_score,typeof conf!=='undefined'?conf:null);showScreen(3);
+            fieldsFilled[1]=fieldsTotal[1];fieldsFilled[2]=fieldsTotal[2];updateCityProgress();startLoop();
+            setTimeout(()=>{window.scrollTo({top:0,behavior:'smooth'});},200);
+          }finally{showLoading('btnCalculate',false);}
+        },50);
+      }
+
+      // EVENTS
+      document.querySelectorAll('#roleOptions .opt').forEach(opt=>{opt.addEventListener('click',function(){document.querySelectorAll('#roleOptions .opt').forEach(o=>o.classList.remove('sel'));this.classList.add('sel');role=this.dataset.role;document.getElementById('btnNext0').disabled=false;fieldsFilled[0]=1;updateCityProgress();startLoop();saveState();});});
+      document.getElementById('btnNext0').addEventListener('click',()=>{const bF=document.getElementById('buyerFields'),oF=document.getElementById('ownerFields'),t=document.getElementById('s1Title');if(role==='buyer'){bF.classList.remove('hidden');oF.classList.add('hidden');t.textContent=T('scr1_buyer_title');}else{bF.classList.add('hidden');oF.classList.remove('hidden');t.textContent=role==='seller'?T('scr1_seller_title'):T('scr1_switcher_title');}showScreen(1);});
+      document.getElementById('btnNext1').addEventListener('click',()=>{if(role==='buyer'){if(!validateRequiredFields(1)){showValidation(T('err_buyer_required'));return;}if(!validateSafeRate())return;doCalc();}else if(role==='seller'){if(!validateRequiredFields(1)){showValidation(T('err_mv'));return;}if(!validateSafeRate())return;doCalc();}else if(role==='switcher'){if(!validateRequiredFields(1)){showValidation(T('err_all_required'));return;}if(!validateSafeRate())return;showScreen(2);}});
+      document.getElementById('btnBack1').addEventListener('click',()=>showScreen(0));
+      document.getElementById('btnCalculate').addEventListener('click',()=>{if(!validateRequiredFields(2)){showValidation(T('err_new_price'));return;}if(!validateSafeRate())return;doCalc();});
+      document.getElementById('btnBack2').addEventListener('click',()=>showScreen(1));
+      document.getElementById('btnRestart').addEventListener('click',()=>{role=null;decisionColor=null;cityProgress=0;fieldsFilled={0:0,1:0,2:0};fieldsTotal={0:1,1:0,2:0};document.querySelectorAll('#roleOptions .opt').forEach(o=>o.classList.remove('sel'));document.getElementById('btnNext0').disabled=true;document.querySelectorAll('input[type="number"]').forEach(i=>{i.value='';});document.getElementById('gVar').value='no';document.getElementById('buyerFields').classList.add('hidden');document.getElementById('ownerFields').classList.add('hidden');document.getElementById('rHTML').innerHTML='';document.getElementById('rFoot').textContent='';document.getElementById('valuationBanner').classList.remove('show');document.getElementById('validationMsg').classList.remove('show');window.scrollTo({top:0,behavior:'smooth'});showScreen(0);stopLoop();drawScene();localStorage.removeItem('AQAR_STATE');saveState();});
+
+      function showValidation(msg){const el=document.getElementById('validationMsg');if(el){el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),4000);}}
+      function validateRequiredFields(screenId){const scr=document.getElementById('scr'+screenId);if(!scr)return true;const required=scr.querySelectorAll('input[data-required="true"]');for(const el of required){if(el.closest('.hidden'))continue;if(!el.value||parseFloat(el.value)<=0){el.classList.add('error');el.focus();setTimeout(()=>el.classList.remove('error'),3000);return false;}}return true;}
+      function validateSafeRate(){const el=document.getElementById('gSafe');if(!el.value||parseFloat(el.value)<=0){el.classList.add('error');el.focus();setTimeout(()=>el.classList.remove('error'),3000);showValidation(T('err_safe_rate'));return false;}return true;}
+
+      function saveState(){const data={};document.querySelectorAll('input[type="number"], select').forEach(el=>{if(el.id)data[el.id]=el.value;});if(role)data.__role=role;if(document.getElementById('gVar'))data.__varRate=document.getElementById('gVar').value;localStorage.setItem('AQAR_STATE',JSON.stringify(data));}
+      function restoreState(){try{const raw=localStorage.getItem('AQAR_STATE');if(!raw)return;const data=JSON.parse(raw);if(data&&typeof data==='object'){document.querySelectorAll('input[type="number"], select').forEach(el=>{if(el.id&&data[el.id]!==undefined)el.value=data[el.id];});if(data.__varRate&&document.getElementById('gVar')){document.getElementById('gVar').value=data.__varRate;}if(data.__role){role=data.__role;const opt=document.querySelector(`#roleOptions .opt[data-role="${role}"]`);if(opt){document.querySelectorAll('#roleOptions .opt').forEach(o=>o.classList.remove('sel'));opt.classList.add('sel');document.getElementById('btnNext0').disabled=false;fieldsFilled[0]=1;}const bF=document.getElementById('buyerFields'),oF=document.getElementById('ownerFields');if(role==='buyer'){if(bF)bF.classList.remove('hidden');if(oF)oF.classList.add('hidden');}else{if(bF)bF.classList.add('hidden');if(oF)oF.classList.remove('hidden');}const s1t=document.getElementById('s1Title');if(s1t){if(role==='buyer')s1t.textContent=T('scr1_buyer_title');else if(role==='seller')s1t.textContent=T('scr1_seller_title');else s1t.textContent=T('scr1_switcher_title');}}}}catch(e){}}
+
+      document.addEventListener('input',saveState);document.addEventListener('change',saveState);
+      restoreState();
+      parseValuationParams();
+      attachFieldListeners();
+      recountScreen(0);drawScene();startLoop();
+    }
+  </script>
+</body>
+</html>
