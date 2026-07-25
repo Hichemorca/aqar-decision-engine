@@ -76,47 +76,33 @@
       text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
     }
 
-    .valuation-banner {
+    .important-note {
       background: rgba(212, 146, 14, 0.08);
       border: 1px solid rgba(212, 146, 14, 0.25);
       border-radius: 12px;
-      padding: 14px 16px;
+      padding: 12px 16px;
       margin-bottom: 16px;
       font-size: 11px;
       color: var(--gold);
+      text-align: center;
       line-height: 1.7;
       backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
       text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
-      display: none;
     }
-    .valuation-banner.show { display: block; }
-    .valuation-banner b { color: #f0c040; }
+    .important-note b { font-weight: 900; color: #f0c040; }
 
-    .progress-row {
-      display: flex;
-      gap: 5px;
-      margin: 16px 0 8px;
-      justify-content: center;
-    }
+    .progress-row { display: flex; gap: 5px; margin: 16px 0 8px; justify-content: center; }
     .progress-dot {
-      flex: 1;
-      max-width: 50px;
-      height: 3px;
-      border-radius: 2px;
-      background: rgba(255, 255, 255, 0.12);
-      transition: all 0.4s;
+      flex: 1; max-width: 50px; height: 3px; border-radius: 2px;
+      background: rgba(255, 255, 255, 0.12); transition: all 0.4s;
     }
     .progress-dot.active { background: var(--gold); }
     .progress-dot.done { background: var(--green); }
 
     .floor-counter {
-      text-align: center;
-      font-size: 11px;
-      color: var(--muted);
-      letter-spacing: 1px;
-      margin-bottom: 12px;
-      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+      text-align: center; font-size: 11px; color: var(--muted);
+      letter-spacing: 1px; margin-bottom: 12px; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
     }
     .floor-counter b { color: var(--gold); font-size: 13px; }
 
@@ -129,48 +115,27 @@
     }
 
     h2 {
-      font-size: 16px;
-      font-weight: 700;
-      text-align: center;
-      margin-bottom: 14px;
-      color: #dce8f5;
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+      font-size: 16px; font-weight: 700; text-align: center; margin-bottom: 14px;
+      color: #dce8f5; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
     }
 
     h3 {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin: 14px 0 8px;
-      padding-bottom: 5px;
-      border-bottom: 1px solid rgba(212, 146, 14, 0.2);
-      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
+      font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold); margin: 14px 0 8px; padding-bottom: 5px;
+      border-bottom: 1px solid rgba(212, 146, 14, 0.2); text-shadow: 0 1px 8px rgba(0, 0, 0, 0.9);
     }
 
     .opts { display: flex; flex-direction: column; gap: 8px; }
 
     .opt {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: rgba(4, 10, 24, 0.55);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.10);
-      border-radius: 13px;
-      padding: 14px 16px;
-      cursor: pointer;
-      transition: all 0.22s;
+      display: flex; align-items: center; gap: 12px;
+      background: rgba(4, 10, 24, 0.55); backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.10);
+      border-radius: 13px; padding: 14px 16px; cursor: pointer; transition: all 0.22s;
     }
-    .opt:hover {
-      border-color: rgba(212, 146, 14, 0.45);
-      background: rgba(8, 18, 40, 0.60);
-    }
+    .opt:hover { border-color: rgba(212, 146, 14, 0.45); background: rgba(8, 18, 40, 0.60); }
     .opt.sel {
-      border-color: var(--gold);
-      background: rgba(20, 30, 55, 0.62);
+      border-color: var(--gold); background: rgba(20, 30, 55, 0.62);
       box-shadow: 0 0 0 1px rgba(212, 146, 14, 0.20), 0 0 20px rgba(212, 146, 14, 0.08);
     }
     .opt .ico { font-size: 26px; flex-shrink: 0; }
@@ -181,174 +146,108 @@
     .fg { flex: 1; min-width: 180px; margin-bottom: 10px; }
 
     .fg label {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 11px;
-      font-weight: 700;
-      color: #b0c0d8;
-      margin-bottom: 4px;
-      letter-spacing: 0.3px;
-      text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+      display: flex; align-items: center; gap: 4px; flex-wrap: wrap;
+      font-size: 11px; font-weight: 700; color: #b0c0d8; margin-bottom: 4px;
+      letter-spacing: 0.3px; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
     }
 
     .fg input, .fg select {
-      width: 100%;
-      padding: 10px 13px;
-      border-radius: 9px;
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      background: rgba(4, 10, 24, 0.50);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      color: var(--text);
-      font-size: 14px;
-      font-family: 'Inter', sans-serif;
+      width: 100%; padding: 10px 13px; border-radius: 9px;
+      border: 1px solid rgba(255, 255, 255, 0.14); background: rgba(4, 10, 24, 0.50);
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+      color: var(--text); font-size: 14px; font-family: 'Inter', sans-serif;
       transition: border 0.2s, background 0.2s, box-shadow 0.2s;
     }
 
     .fg input:focus, .fg select:focus {
-      outline: none;
-      border-color: rgba(212, 146, 14, 0.55);
-      background: rgba(4, 10, 24, 0.60);
-      box-shadow: 0 0 0 2px rgba(212, 146, 14, 0.10);
+      outline: none; border-color: rgba(212, 146, 14, 0.55);
+      background: rgba(4, 10, 24, 0.60); box-shadow: 0 0 0 2px rgba(212, 146, 14, 0.10);
     }
 
-    .fg input.error {
-      border-color: rgba(255, 60, 90, 0.6);
-      box-shadow: 0 0 0 2px rgba(255, 60, 90, 0.15);
-    }
+    .fg input.error { border-color: rgba(255, 60, 90, 0.6); box-shadow: 0 0 0 2px rgba(255, 60, 90, 0.15); }
 
-    .fg .note {
-      font-size: 10px;
-      color: #5a7090;
-      margin-top: 2px;
-      text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
-    }
-
-    .fg .tip {
-      font-size: 10px;
-      color: #3a8acf;
-      margin-top: 2px;
-      cursor: pointer;
-      text-decoration: underline;
-    }
+    .fg .note { font-size: 10px; color: #5a7090; margin-top: 2px; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8); }
+    .fg .tip { font-size: 10px; color: #3a8acf; margin-top: 2px; cursor: pointer; text-decoration: underline; }
 
     .help-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      background: rgba(212, 146, 14, 0.15);
-      color: var(--gold);
-      font-size: 11px;
-      font-weight: 700;
-      cursor: pointer;
-      margin-left: 6px;
-      transition: all 0.22s;
-      flex-shrink: 0;
-      border: 1px solid rgba(212, 146, 14, 0.25);
-      user-select: none;
-      line-height: 1;
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 18px; height: 18px; border-radius: 50%; background: rgba(212, 146, 14, 0.15);
+      color: var(--gold); font-size: 11px; font-weight: 700; cursor: pointer;
+      transition: all 0.22s; flex-shrink: 0; border: 1px solid rgba(212, 146, 14, 0.25);
+      user-select: none; line-height: 1;
     }
     .help-icon:hover {
-      background: rgba(212, 146, 14, 0.28);
-      border-color: rgba(212, 146, 14, 0.55);
+      background: rgba(212, 146, 14, 0.28); border-color: rgba(212, 146, 14, 0.55);
       box-shadow: 0 0 12px rgba(212, 146, 14, 0.2);
     }
 
+    .quick-btns { display: flex; gap: 6px; margin-top: 4px; flex-wrap: wrap; }
+    .quick-btn {
+      flex: 1; min-width: 50px; padding: 5px 8px; border-radius: 7px;
+      border: 1px solid rgba(255, 255, 255, 0.12); background: rgba(4, 10, 24, 0.35);
+      backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+      color: var(--muted); font-size: 11px; font-weight: 700;
+      font-family: 'Inter', sans-serif; cursor: pointer; transition: all 0.2s; text-align: center;
+    }
+    .quick-btn:hover { border-color: rgba(212, 146, 14, 0.4); color: var(--gold); background: rgba(4, 10, 24, 0.5); }
+    .quick-btn.sel {
+      border-color: var(--gold); color: var(--gold);
+      background: rgba(212, 146, 14, 0.12); box-shadow: 0 0 10px rgba(212, 146, 14, 0.1);
+    }
+    .auto-badge {
+      display: inline-block; font-size: 9px; font-weight: 700; padding: 2px 6px;
+      border-radius: 10px; background: rgba(0, 184, 110, 0.15); color: var(--green);
+      letter-spacing: 0.5px; margin-left: 4px;
+    }
+
     .btn {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      border-radius: 10px;
-      border: none;
-      font-size: 15px;
-      font-weight: 700;
-      font-family: 'Inter', sans-serif;
-      cursor: pointer;
-      transition: all 0.22s;
-      margin-top: 8px;
-      text-align: center;
+      display: block; width: 100%; padding: 12px; border-radius: 10px; border: none;
+      font-size: 15px; font-weight: 700; font-family: 'Inter', sans-serif; cursor: pointer;
+      transition: all 0.22s; margin-top: 8px; text-align: center;
     }
 
     .btn-p {
-      background: linear-gradient(135deg, #d4920e, #a86c08);
-      color: #000;
+      background: linear-gradient(135deg, #d4920e, #a86c08); color: #000;
       box-shadow: 0 4px 18px rgba(212, 146, 14, 0.28);
     }
-    .btn-p:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 28px rgba(212, 146, 14, 0.42);
-    }
+    .btn-p:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(212, 146, 14, 0.42); }
     .btn-p:disabled { opacity: 0.3; cursor: not-allowed; }
 
     .btn-s {
-      background: rgba(4, 10, 24, 0.45);
-      backdrop-filter: blur(6px);
-      -webkit-backdrop-filter: blur(6px);
-      color: #8a9ab0;
-      border: 1px solid rgba(255, 255, 255, 0.10);
-      margin-top: 8px;
+      background: rgba(4, 10, 24, 0.45); backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px); color: #8a9ab0;
+      border: 1px solid rgba(255, 255, 255, 0.10); margin-top: 8px;
     }
-    .btn-s:hover {
-      border-color: rgba(255,255,255,0.18);
-      color: var(--text);
-      background: rgba(4, 10, 24, 0.55);
-    }
+    .btn-s:hover { border-color: rgba(255,255,255,0.18); color: var(--text); background: rgba(4, 10, 24, 0.55); }
 
     .hidden { display: none !important; }
 
     .validation-msg {
-      background: rgba(255, 60, 90, 0.12);
-      border: 1px solid rgba(255, 60, 90, 0.3);
-      border-radius: 10px;
-      padding: 10px 14px;
-      margin: 10px 0;
-      font-size: 12px;
-      color: #ff6b7a;
-      text-align: center;
-      display: none;
-      backdrop-filter: blur(4px);
+      background: rgba(255, 60, 90, 0.12); border: 1px solid rgba(255, 60, 90, 0.3);
+      border-radius: 10px; padding: 10px 14px; margin: 10px 0; font-size: 12px;
+      color: #ff6b7a; text-align: center; display: none; backdrop-filter: blur(4px);
       -webkit-backdrop-filter: blur(4px);
     }
     .validation-msg.show { display: block; animation: fadeUp 0.3s ease; }
 
     .result-inline {
-      width: 100%;
-      max-width: 560px;
-      background: rgba(0,0,0,0.10);
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 18px;
-      padding: 16px 12px;
-      margin-top: 14px;
-      box-shadow: 0 14px 45px rgba(0, 0, 0, 0.28);
+      width: 100%; max-width: 560px; background: rgba(0,0,0,0.10);
+      backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+      border: 1px solid rgba(255,255,255,0.06); border-radius: 18px;
+      padding: 16px 12px; margin-top: 14px; box-shadow: 0 14px 45px rgba(0, 0, 0, 0.28);
     }
     .result-inline:empty { display: none; }
 
     .result-inline .r-label {
-      font-size: 10px;
-      letter-spacing: 3px;
-      color: rgba(138,154,176,0.7);
-      text-transform: uppercase;
-      text-align: center;
-      margin-bottom: 10px;
+      font-size: 10px; letter-spacing: 3px; color: rgba(138,154,176,0.7);
+      text-transform: uppercase; text-align: center; margin-bottom: 10px;
     }
 
     .r-box {
-      padding: 16px;
-      border-radius: 16px;
-      text-align: center;
-      margin: 12px 0;
-      background: rgba(0,0,0,0.10);
-      border: 1px solid rgba(255,255,255,0.05);
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
+      padding: 16px; border-radius: 16px; text-align: center; margin: 12px 0;
+      background: rgba(0,0,0,0.10); border: 1px solid rgba(255,255,255,0.05);
+      backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
     }
-
     .r-box.buy { border-color: rgba(0, 184, 110, 0.30); background: rgba(0, 184, 110, 0.05); }
     .r-box.sell { border-color: rgba(255, 60, 90, 0.30); background: rgba(255, 60, 90, 0.05); }
     .r-box.hold { border-color: rgba(60, 140, 220, 0.30); background: rgba(60, 140, 220, 0.05); }
@@ -363,73 +262,35 @@
     .r-warn { font-size: 12px; margin-top: 6px; line-height: 1.6; }
 
     .mtable {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 12px 0;
-      background: rgba(0,0,0,0.10);
-      border: 1px solid rgba(255,255,255,0.06);
-      border-radius: 16px;
-      overflow: hidden;
-      backdrop-filter: blur(2px);
+      width: 100%; border-collapse: collapse; margin: 12px 0;
+      background: rgba(0,0,0,0.10); border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 16px; overflow: hidden; backdrop-filter: blur(2px);
       -webkit-backdrop-filter: blur(2px);
     }
-
     .mtable td {
-      padding: 7px 9px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-      font-size: 12px;
+      padding: 7px 9px; border-bottom: 1px solid rgba(255, 255, 255, 0.04); font-size: 12px;
     }
     .mtable tr:last-child td { border-bottom: none; }
-
     .mtable td:last-child {
-      text-align: left;
-      font-weight: 700;
-      font-size: 14px;
-      color: var(--gold);
-      font-family: monospace;
+      text-align: left; font-weight: 700; font-size: 14px; color: var(--gold); font-family: monospace;
     }
-
     .mtable .sec-hd td {
-      color: var(--gold);
-      font-weight: 700;
-      font-size: 11px;
-      letter-spacing: 1px;
-      padding-top: 10px;
+      color: var(--gold); font-weight: 700; font-size: 11px; letter-spacing: 1px; padding-top: 10px;
     }
 
     .r-foot {
-      text-align: center;
-      font-size: 11px;
-      color: rgba(138,154,176,0.7);
-      margin-top: 12px;
-      padding-top: 12px;
-      border-top: 1px solid rgba(255, 255, 255, 0.04);
-      line-height: 1.8;
+      text-align: center; font-size: 11px; color: rgba(138,154,176,0.7);
+      margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255, 255, 255, 0.04); line-height: 1.8;
     }
 
     .btn-restart {
-      display: block;
-      width: 100%;
-      padding: 11px;
-      margin-top: 10px;
-      border-radius: 9px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      background: rgba(0,0,0,0.08);
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
-      color: rgba(138,154,176,0.8);
-      font-size: 14px;
-      font-weight: 700;
-      font-family: 'Inter', sans-serif;
-      cursor: pointer;
-      transition: all 0.22s;
-      text-align: center;
+      display: block; width: 100%; padding: 11px; margin-top: 10px; border-radius: 9px;
+      border: 1px solid rgba(255, 255, 255, 0.08); background: rgba(0,0,0,0.08);
+      backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px);
+      color: rgba(138,154,176,0.8); font-size: 14px; font-weight: 700;
+      font-family: 'Inter', sans-serif; cursor: pointer; transition: all 0.22s; text-align: center;
     }
-    .btn-restart:hover {
-      border-color: var(--gold);
-      color: var(--gold);
-      background: rgba(0,0,0,0.12);
-    }
+    .btn-restart:hover { border-color: var(--gold); color: var(--gold); background: rgba(0,0,0,0.12); }
 
     @media (max-width: 500px) {
       .row { flex-direction: column; gap: 0; }
@@ -438,19 +299,12 @@
     }
 
     .loading {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 2px solid rgba(212,146,14,0.3);
-      border-radius: 50%;
-      border-top-color: var(--gold);
-      animation: spin 0.8s linear infinite;
-      margin-right: 8px;
-      vertical-align: middle;
+      display: inline-block; width: 20px; height: 20px;
+      border: 2px solid rgba(212,146,14,0.3); border-radius: 50%;
+      border-top-color: var(--gold); animation: spin 0.8s linear infinite;
+      margin-right: 8px; vertical-align: middle;
     }
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    @keyframes spin { to { transform: rotate(360deg); } }
   </style>
 </head>
 
@@ -466,10 +320,9 @@
         <div class="sub">Stop guessing — let the numbers decide.</div>
       </div>
 
-      <!-- Valuation Engine Banner -->
-      <div class="valuation-banner" id="valuationBanner">
-        📋 <b>From Valuation Engine</b><br>
-        <span id="valBannerText"></span>
+      <div class="important-note">
+        ⚠️ <b>Important:</b> All percentages are entered as numbers <b>without the % sign</b><br>
+        <span style="font-size:10px;color:rgba(212,146,14,0.7)">Example: write <b>5</b> not 5% &nbsp;|&nbsp; write <b>10</b> not 10%</span>
       </div>
 
       <div class="progress-row">
@@ -518,8 +371,7 @@
             </div>
             <div class="fg">
               <label>🏦 Down Payment (if any) <span class="help-icon" data-help="bDP">ⓘ</span></label>
-              <input type="number" id="bDP" placeholder="e.g. 150000">
-              <div class="note">Leave 0 for all-cash purchase</div>
+              <input type="number" id="bDP" placeholder="e.g. 150000"><div class="note">Leave 0 for all-cash purchase</div>
             </div>
           </div>
           <div class="row">
@@ -639,32 +491,44 @@
         <h3>General Settings</h3>
         <div class="row">
           <div class="fg">
-            <label>🎯 Target Annual Return (%)</label>
+            <label>🎯 Target Annual Return (%) <span class="help-icon" data-help="gRR">ⓘ</span></label>
             <input type="number" id="gRR" placeholder="e.g. 10" step="0.1"><div class="note">Default 10%</div>
           </div>
           <div class="fg">
-            <label>🏦 Bank Deposit Return (%)</label>
+            <label>🏦 Bank Deposit Return (%) <span class="help-icon" data-help="gSafe">ⓘ</span></label>
             <input type="number" id="gSafe" placeholder="e.g. 5" step="0.1" data-required="true">
           </div>
         </div>
         <div class="row">
           <div class="fg">
-            <label>🔁 Transaction Cost (%)</label>
+            <label>🔁 Transaction Cost (%) <span class="help-icon" data-help="gSw">ⓘ</span></label>
             <input type="number" id="gSw" placeholder="e.g. 5" step="0.1"><div class="note">Commissions + fees + vacancy gap</div>
           </div>
           <div class="fg">
-            <label>⚠️ Interest Rate Type</label>
+            <label>⚠️ Interest Rate Type <span class="help-icon" data-help="gVar">ⓘ</span></label>
             <select id="gVar"><option value="no">Fixed</option><option value="yes">Variable</option></select>
           </div>
         </div>
         <div class="row">
           <div class="fg">
-            <label>📅 Holding Period (Years)</label>
+            <label>📅 Holding Period (Years) <span class="help-icon" data-help="gHold">ⓘ</span></label>
             <input type="number" id="gHold" placeholder="e.g. 5"><div class="note">Default 5 years</div>
           </div>
           <div class="fg">
-            <label>💸 NPV Discount Rate (%)</label>
-            <input type="number" id="gDisc" placeholder="e.g. 10" step="0.1"><div class="note">Default equals target return</div>
+            <label>
+              💸 NPV Discount Rate (%)
+              <span id="autoBadge" class="auto-badge" style="display:none">⚡ Auto</span>
+              <span class="help-icon" data-help="gDisc">ⓘ</span>
+            </label>
+            <div class="input-with-quick">
+              <input type="number" id="gDisc" placeholder="Auto (10%)" step="0.1">
+              <div class="quick-btns">
+                <button class="quick-btn" data-rate="8">8%</button>
+                <button class="quick-btn sel" data-rate="10">10%</button>
+                <button class="quick-btn" data-rate="13">13%</button>
+              </div>
+            </div>
+            <div class="note" id="discNote">Auto: max(Target Return, Safe Rate + 3%) = <b id="discAutoVal">10%</b></div>
           </div>
         </div>
 
@@ -677,21 +541,21 @@
         <h2>🆕 New Opportunity Data</h2>
         <div class="row">
           <div class="fg">
-            <label>💰 New Property Purchase Price</label>
+            <label>💰 New Property Purchase Price <span class="help-icon" data-help="nP">ⓘ</span></label>
             <input type="number" id="nP" placeholder="e.g. 700000" data-required="true">
           </div>
           <div class="fg">
-            <label>🏦 Down Payment</label>
+            <label>🏦 Down Payment <span class="help-icon" data-help="nDP">ⓘ</span></label>
             <input type="number" id="nDP" placeholder="e.g. 200000">
           </div>
         </div>
         <div class="row">
           <div class="fg">
-            <label>📊 Expected Annual Net Rent</label>
+            <label>📊 Expected Annual Net Rent <span class="help-icon" data-help="nCF">ⓘ</span></label>
             <input type="number" id="nCF" placeholder="e.g. 35000" data-required="true">
           </div>
           <div class="fg">
-            <label>📈 Expected Annual Value Growth (%)</label>
+            <label>📈 Expected Annual Value Growth (%) <span class="help-icon" data-help="nCG">ⓘ</span></label>
             <input type="number" id="nCG" placeholder="e.g. 3" step="0.1">
             <div class="tip" data-target="nCG">Use 3% default</div>
           </div>
@@ -699,32 +563,32 @@
         <h3>Operating Assumptions</h3>
         <div class="row">
           <div class="fg">
-            <label>🏚️ Vacancy Rate (%)</label>
+            <label>🏚️ Vacancy Rate (%) <span class="help-icon" data-help="nVac">ⓘ</span></label>
             <input type="number" id="nVac" placeholder="e.g. 10" step="0.1"><div class="note">Default 8%</div>
           </div>
           <div class="fg">
-            <label>🛠️ Operating Expenses (% of Rent)</label>
+            <label>🛠️ Operating Expenses (% of Rent) <span class="help-icon" data-help="nOpEx">ⓘ</span></label>
             <input type="number" id="nOpEx" placeholder="e.g. 20" step="0.1"><div class="note">Default 18%</div>
           </div>
         </div>
         <div class="row">
           <div class="fg">
-            <label>📈 Annual Rent Growth (%)</label>
+            <label>📈 Annual Rent Growth (%) <span class="help-icon" data-help="nRG">ⓘ</span></label>
             <input type="number" id="nRG" placeholder="e.g. 2" step="0.1"><div class="note">Default 2%</div>
           </div>
           <div class="fg">
-            <label>🧾 Future Exit Cost (%)</label>
+            <label>🧾 Future Exit Cost (%) <span class="help-icon" data-help="nExit">ⓘ</span></label>
             <input type="number" id="nExit" placeholder="e.g. 5" step="0.1"><div class="note">Default 5%</div>
           </div>
         </div>
         <h3>Financing (Optional)</h3>
         <div class="row">
           <div class="fg">
-            <label>🏦 Annual Interest Rate (%)</label>
+            <label>🏦 Annual Interest Rate (%) <span class="help-icon" data-help="nIR">ⓘ</span></label>
             <input type="number" id="nIR" placeholder="e.g. 6" step="0.1">
           </div>
           <div class="fg">
-            <label>⏳ Loan Term (Years)</label>
+            <label>⏳ Loan Term (Years) <span class="help-icon" data-help="nLT">ⓘ</span></label>
             <input type="number" id="nLT" placeholder="e.g. 20">
           </div>
         </div>
@@ -811,20 +675,148 @@
 
       function T(key) { return STRINGS[key] || key; }
 
-      const canvas = document.getElementById('city-canvas'), ctx = canvas.getContext('2d');
-      function resizeCanvas() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-      resizeCanvas(); window.addEventListener('resize', () => { resizeCanvas(); drawScene(); });
-      let currentScreen = 0, role = null, cityProgress = 0, decisionColor = null, animFrame = null;
-      let fieldsFilled = { 0: 0, 1: 0, 2: 0 }, fieldsTotal = { 0: 1, 1: 0, 2: 0 };
-      const windowSeeds = [];
-      function ensureSeed(ti, fi) { if (!windowSeeds[ti]) windowSeeds[ti] = []; while (windowSeeds[ti].length <= fi) windowSeeds[ti].push(Math.random()); return windowSeeds[ti][fi]; }
-      function drawSky() {
-        const W=canvas.width,H=canvas.height,g=ctx.createLinearGradient(0,0,0,H);
-        g.addColorStop(0,'#020817');g.addColorStop(0.5,'#0a1628');g.addColorStop(1,'#111d33');
-        ctx.fillStyle=g;ctx.fillRect(0,0,W,H);ctx.fillStyle='rgba(255,255,255,0.5)';
-        for(let i=0;i<80;i++){const sx=((i*7919+1049)%W),sy=((i*6271+3041)%(H*0.65)),sr=0.4+(i%3)*0.5,tw=0.3+0.7*Math.abs(Math.sin(Date.now()/2000+i));ctx.globalAlpha=tw*0.7;ctx.beginPath();ctx.arc(sx,sy,sr,0,Math.PI*2);ctx.fill();}
-        ctx.globalAlpha=1;
+      // ===== HELP DATA =====
+      const HELP_DATA = {
+        bP: { title: '💰 Property Price (P) — سعر العقار', subtitle: 'السعر الإجمالي المطلوب لشراء العقار.', sections: [
+          { label: 'ما الذي يتم إدخاله؟', text: 'المبلغ الإجمالي الذي ستدفعه للبائع لشراء العقار.' },
+          { label: 'مثال', text: '500,000 AED' }, { label: 'لا تكتب', text: '❌ الدفعة المقدمة\n❌ قيمة القرض', type: 'bad' }
+        ]},
+        bDP: { title: '🏦 Down Payment (DP) — الدفعة المقدمة', subtitle: 'المبلغ الذي سيدفعه المستثمر من أمواله الخاصة.', sections: [
+          { label: 'ما الذي يتم إدخاله؟', text: 'المبلغ النقدي الذي ستدفعه من جيبك (وليس من القرض).' },
+          { label: 'إذا كان الشراء نقدًا', text: 'اجعل الدفعة المقدمة = سعر العقار بالكامل.' },
+          { label: 'مثال', text: 'سعر العقار: 500,000\nالدفعة المقدمة: 100,000\nالقرض: 400,000' },
+        ]},
+        bCF: { title: '📊 Annual Rent / Cash Flow (CF) — الدخل السنوي من الإيجار', subtitle: 'مجموع الإيجارات المتوقعة خلال سنة كاملة.', sections: [
+          { label: 'كيف يُحسب؟', text: 'الإيجار الشهري × 12 شهر' }, { label: 'مثال', text: '4,000 شهريًا × 12 = 48,000 سنويًا' },
+          { label: 'إذا كان العقار غير مؤجر', text: 'اكتب 0 (صفر)' },
+        ]},
+        bCG: { title: '📈 Capital Growth (CG) — معدل نمو قيمة العقار', subtitle: 'كم تتوقع أن ترتفع قيمة العقار كل سنة؟', sections: [
+          { label: 'مثال', text: 'إذا كتبت 5، فإن:\n500,000 تصبح 525,000 بعد سنة.' }, { label: 'القيمة الافتراضية', text: '3% (اكتب 3)' }
+        ]},
+        bRG: { title: '📈 Rental Growth (RG) — معدل نمو الإيجار', subtitle: 'كم تتوقع أن يزيد الإيجار سنويًا؟', sections: [
+          { label: 'مثال', text: 'إذا كتبت 3، والإيجار الحالي 50,000\nسيصبح 51,500 في السنة القادمة.' }, { label: 'القيمة الافتراضية', text: '2% (اكتب 2)' }
+        ]},
+        bVac: { title: '🏚️ Vacancy Rate (Vac) — نسبة الشغور', subtitle: 'النسبة المتوقعة من السنة التي يبقى فيها العقار بدون مستأجر.', sections: [
+          { label: 'مثال', text: 'إذا كتبت 10، يعني العقار سيكون فارغًا تقريبًا 36 يومًا في السنة.' },
+          { label: 'إذا كان العقار مؤجرًا دائمًا', text: 'ضع 0 (اكتب 0)' }, { label: 'القيمة الافتراضية', text: '8% (اكتب 8)' }
+        ]},
+        bOpEx: { title: '🛠️ Operating Expenses (OpEx) — مصاريف التشغيل', subtitle: 'جميع المصاريف السنوية اللازمة لتشغيل العقار (كنسبة من الإيجار).', sections: [
+          { label: 'تشمل', text: '✅ الصيانة\n✅ رسوم الإدارة\n✅ رسوم الخدمات\n✅ التأمين', type: 'good' },
+          { label: 'لا تشمل', text: '❌ أقساط البنك\n❌ تكلفة شراء العقار', type: 'bad' }, { label: 'القيمة الافتراضية', text: '18% (اكتب 18)' }
+        ]},
+        bIR: { title: '🏦 Loan Interest — نسبة فائدة القرض', subtitle: 'الفائدة السنوية على التمويل العقاري.', sections: [
+          { label: 'مثال', text: 'إذا كانت الفائدة 4.5%، اكتب 4.5' }, { label: 'إذا لم يوجد قرض', text: 'اكتب 0 (صفر)' }
+        ]},
+        bLT: { title: '⏳ Loan Term — مدة القرض', subtitle: 'عدد سنوات التمويل العقاري.', sections: [
+          { label: 'مثال', text: '25 سنة (اكتب 25)' }, { label: 'إذا لم يوجد قرض', text: 'اتركه فارغًا أو اكتب 0' }
+        ]},
+        bExit: { title: '🧾 Exit Cost — تكلفة الخروج', subtitle: 'تكلفة بيع العقار عند الخروج (كنسبة من قيمة العقار).', sections: [
+          { label: 'تشمل', text: '✅ عمولة الوسيط\n✅ الرسوم الحكومية\n✅ الضرائب (إن وجدت)' },
+          { label: 'مثال', text: 'إذا كانت التكلفة 6%، اكتب 6' }, { label: 'القيمة الافتراضية', text: '5% (اكتب 5)' }
+        ]},
+        gRR: { title: '🎯 Target Annual Return — العائد السنوي المستهدف', subtitle: 'نسبة العائد التي تطمح لتحقيقها من استثمارك العقاري.', sections: [
+          { label: 'ما هو؟', text: 'الحد الأدنى للعائد الذي يجعلك توافق على الاستثمار.' }, { label: 'القيمة الافتراضية', text: '10% (اكتب 10)' }
+        ]},
+        gSafe: { title: '🏦 Safe Rate — معدل الاستثمار الآمن', subtitle: 'العائد الذي يمكنك الحصول عليه دون مخاطرة كبيرة.', sections: [
+          { label: 'أمثلة', text: '✅ وديعة بنكية\n✅ سندات حكومية\n✅ صندوق سوق نقدي' },
+          { label: 'مثال', text: 'إذا كان البنك يعطي 5%، اكتب 5' },
+          { label: 'لماذا هو مهم؟', text: 'تتم مقارنة عائد العقار بهذا المعدل لتحديد ما إذا كان الاستثمار يستحق المخاطرة.' }
+        ]},
+        gSw: { title: '🔁 Transaction Cost — تكلفة التحويل', subtitle: 'إجمالي تكاليف البيع والشراء معًا (كنسبة من قيمة العقارين).', sections: [
+          { label: 'تشمل', text: '✅ عمولات الوسيط\n✅ رسوم التسجيل\n✅ فجوة الشغور بين العقارين' }, { label: 'القيمة الافتراضية', text: '5% (اكتب 5)' }
+        ]},
+        gVar: { title: '⚠️ Interest Rate Type — نوع سعر الفائدة', subtitle: 'هل سعر الفائدة على القرض ثابت أم متغير؟', sections: [
+          { label: 'Fixed — ثابت', text: 'القسط الشهري ثابت طوال مدة القرض.' },
+          { label: 'Variable — متغير', text: '⚠️ القسط يتغير حسب ظروف السوق. اختر هذا إذا كنت تريد تضمين سيناريوهات ارتفاع الفائدة في التحليل.' }
+        ]},
+        gHold: { title: '📅 Holding Period — مدة الاحتفاظ', subtitle: 'عدد السنوات التي تنوي الاحتفاظ فيها بالعقار قبل البيع.', sections: [
+          { label: 'مثال', text: 'إذا كنت تخطط للبيع بعد 10 سنوات، اكتب 10' }, { label: 'القيمة الافتراضية', text: '5 سنوات (اكتب 5)' },
+        ]},
+        gDisc: {
+          title: '💸 NPV Discount Rate — معدل الخصم',
+          subtitle: 'يحول الأرباح المستقبلية إلى قيمتها اليوم. كلما ارتفع الرقم، زاد تشددك في تقييم الصفقة.',
+          sections: [
+            { label: '⚡ تلقائي (موصى به)', text: 'يتم حسابه تلقائياً: max(العائد المستهدف، عائد البنك + 3%)\n\nمثال: إذا كان العائد المستهدف 10% والبنك 5%:\n→ auto = max(10%, 5%+3%) = max(10%, 8%) = 10%', type: 'good' },
+            { label: '📊 كيف تختار الرقم المناسب؟', text: '• مستثمر محافظ جداً: 7-8%\n• مستثمر متوازن: 10-12%\n• مستثمر مخاطر: 14-18%\n• منطقة عالية المخاطر: 15-20%\n• منطقة مستقرة: 7-9%' },
+            { label: '🧠 القاعدة الذهبية', text: 'معدل الخصم = تكلفة الفرصة (عائد البنك) + علاوة المخاطرة\n\nكلما زاد الرقم:\n← تشدد أكثر ← تقبل فقط الصفقات المربحة جداً\nكلما قل الرقم:\n← تساهل أكثر ← تقبل صفقات بعوائد أقل' },
+            { label: '⚠️ لا تكتب', text: '❌ 0.10 (اكتب 10)\n❌ نفس نسبة التضخم فقط\n❌ نفس فائدة القرض فقط', type: 'bad' },
+            { label: '💡 نصيحة', text: 'إذا كنت لا تعرف ماذا تختار، اتركه فارغاً وسيتم اختيار القيمة التلقائية. هذا مناسب لمعظم المستثمرين.' }
+          ]
+        },
+        oMV: { title: '💎 Current Market Value — القيمة السوقية الحالية', subtitle: 'سعر العقار في السوق اليوم (وليس سعر الشراء القديم).', sections: [
+          { label: 'تنبيه مهم', text: '⚠️ هذه هي القيمة الحالية التي يمكنك البيع بها اليوم، وليس السعر الذي اشتريت به العقار سابقًا.' },
+        ]},
+        oLoan: { title: '🏦 Remaining Loan — الرصيد المتبقي من القرض', subtitle: 'المبلغ المتبقي الذي لم تسدده بعد للبنك.', sections: [{ label: 'إذا انتهى التمويل', text: 'ضع 0 (صفر)' }] },
+        oCF: { title: '📊 Current Annual Net Rent — صافي الدخل السنوي', subtitle: 'الدخل السنوي الحالي من العقار (بعد خصم المصاريف، قبل أقساط القرض).', sections: [{ label: 'كيف يُحسب؟', text: 'إجمالي الإيجار − مصاريف التشغيل' }] },
+        oCG: { title: '📈 Expected Annual Value Growth', subtitle: 'معدل النمو السنوي المتوقع.', sections: [{ label: 'القيمة الافتراضية', text: '3% (اكتب 3)' }] },
+        oPP: { title: '📜 Original Purchase Price', subtitle: 'السعر الذي اشتريت به العقار (لحساب ضريبة الأرباح الرأسمالية).', sections: [{ label: 'اختياري', text: 'إذا تركته فارغًا، لن يتم احتساب أي ضريبة.' }] },
+        oTax: { title: '🧾 Capital Gains Tax — ضريبة الأرباح الرأسمالية', subtitle: 'نسبة الضريبة على أرباح بيع العقار.', sections: [{ label: 'مثال', text: 'ربح 100,000 × ضريبة 15% = 15,000 ضريبة ——> اكتب 15' }] },
+        oVac: { title: '🏚️ Vacancy Rate', subtitle: 'النسبة المتوقعة من السنة التي يبقى فيها عقارك بدون مستأجر.', sections: [{ label: 'القيمة الافتراضية', text: '8% (اكتب 8)' }] },
+        oOpEx: { title: '🛠️ Operating Expenses', subtitle: 'المصاريف السنوية كنسبة من الإيجار.', sections: [{ label: 'القيمة الافتراضية', text: '18% (اكتب 18)' }] },
+        oRG: { title: '📈 Rent Growth', subtitle: 'الزيادة السنوية المتوقعة في الإيجار.', sections: [{ label: 'القيمة الافتراضية', text: '2% (اكتب 2)' }] },
+        oExit: { title: '🧾 Exit Cost', subtitle: 'تكاليف البيع (عمولة + رسوم + ضرائب) كنسبة من قيمة العقار.', sections: [{ label: 'القيمة الافتراضية', text: '5% (اكتب 5)' }] },
+        oIR: { title: '🏦 Interest Rate', subtitle: 'نسبة الفائدة السنوية على القرض الحالي.', sections: [{ label: 'إذا لم يوجد قرض', text: 'اكتب 0' }] },
+        oLT: { title: '⏳ Loan Term', subtitle: 'عدد سنوات التمويل المتبقية.', sections: [{ label: 'إذا لم يوجد قرض', text: 'اتركه فارغًا أو اكتب 0' }] },
+        nP: { title: '💰 New Property Price', subtitle: 'السعر الإجمالي للعقار الذي ترغب في شرائه.', sections: [{ label: 'مثال', text: '700,000 AED' }] },
+        nDP: { title: '🏦 New Down Payment', subtitle: 'المبلغ النقدي الذي ستدفعه للعقار الجديد.', sections: [{ label: 'مصدر التمويل', text: 'عادةً من صافي حصيلة بيع عقارك الحالي.' }] },
+        nCF: { title: '📊 New Rent', subtitle: 'الدخل السنوي المتوقع من العقار الجديد.', sections: [{ label: 'مثال', text: '5,000 شهريًا × 12 = 60,000 سنويًا ——> اكتب 60,000' }] },
+        nCG: { title: '📈 New Property Growth', subtitle: 'معدل النمو السنوي المتوقع.', sections: [{ label: 'القيمة الافتراضية', text: '3% (اكتب 3)' }] },
+        nVac: { title: '🏚️ Vacancy', subtitle: 'نسبة الشغور المتوقعة للعقار الجديد.', sections: [{ label: 'القيمة الافتراضية', text: '8% (اكتب 8)' }] },
+        nOpEx: { title: '🛠️ Operating Expenses', subtitle: 'المصاريف السنوية كنسبة من إيجار العقار الجديد.', sections: [{ label: 'القيمة الافتراضية', text: '18% (اكتب 18)' }] },
+        nRG: { title: '📈 Rent Growth', subtitle: 'الزيادة السنوية المتوقعة في إيجار العقار الجديد.', sections: [{ label: 'القيمة الافتراضية', text: '2% (اكتب 2)' }] },
+        nExit: { title: '🧾 Exit Cost', subtitle: 'تكاليف البيع المتوقعة عند الخروج من العقار الجديد.', sections: [{ label: 'القيمة الافتراضية', text: '5% (اكتب 5)' }] },
+        nIR: { title: '🏦 Interest Rate', subtitle: 'نسبة الفائدة السنوية على تمويل العقار الجديد.', sections: [{ label: 'إذا كان الشراء نقدًا', text: 'اكتب 0' }] },
+        nLT: { title: '⏳ Loan Term', subtitle: 'عدد سنوات تمويل العقار الجديد.', sections: [{ label: 'مثال', text: '25 سنة (اكتب 25)' }] },
+      };
+
+      // ===== HELP TOOLTIP =====
+      let activeTooltip = null;
+      function showHelpTooltip(helpKey, iconElement) {
+        hideHelpTooltip();
+        const data = HELP_DATA[helpKey]; if (!data) return;
+        const tooltip = document.createElement('div');
+        tooltip.id = 'activeHelpTooltip';
+        tooltip.style.cssText = 'position:fixed;z-index:1000;max-width:360px;background:rgba(8,16,32,0.96);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(212,146,14,0.35);border-radius:14px;padding:18px 20px;box-shadow:0 20px 50px rgba(0,0,0,0.6),0 0 30px rgba(212,146,14,0.08);color:#e8edf5;font-size:12px;line-height:1.8;pointer-events:auto;animation:fadeUp 0.25s ease';
+        let sHTML = '';
+        (data.sections||[]).forEach(sec => {
+          const tc = sec.type==='bad'?'color:#ff3c5a;font-size:10px;margin-top:2px;':sec.type==='good'?'color:#00b86e;font-size:10px;margin-top:2px;':'';
+          sHTML += `<div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06)"><div style="font-size:10px;font-weight:700;color:rgba(212,146,14,0.8);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px">${sec.label}</div><div style="${tc}white-space:pre-line">${sec.text}</div></div>`;
+        });
+        tooltip.innerHTML = `<button style="position:absolute;top:10px;right:14px;background:none;border:none;color:#8a9ab0;font-size:16px;cursor:pointer;padding:2px 6px;border-radius:6px" onclick="document.getElementById('activeHelpTooltip')?.remove();">✕</button><div style="font-size:14px;font-weight:900;color:#d4920e;margin-bottom:6px">${data.title}</div><div style="font-size:11px;color:#8a9ab0;margin-bottom:10px">${data.subtitle}</div>${sHTML}`;
+        document.body.appendChild(tooltip);
+        activeTooltip = tooltip;
+        const r = iconElement.getBoundingClientRect();
+        let l = r.left - 180 + r.width/2, t = r.bottom + 10;
+        if(l<10) l=10; if(l+360>window.innerWidth-10) l=window.innerWidth-370;
+        if(t+300>window.innerHeight-20) t=r.top-310; if(t<10) t=10;
+        tooltip.style.left=l+'px'; tooltip.style.top=t+'px';
+        setTimeout(()=>document.addEventListener('click',closeTooltipOnClickOutside),10);
       }
+      function hideHelpTooltip(){if(activeTooltip){activeTooltip.remove();activeTooltip=null;}document.removeEventListener('click',closeTooltipOnClickOutside);}
+      function closeTooltipOnClickOutside(e){if(activeTooltip&&!activeTooltip.contains(e.target)&&!e.target.classList.contains('help-icon'))hideHelpTooltip();}
+      function attachHelpIcons(){document.querySelectorAll('.help-icon').forEach(icon=>{const n=icon.cloneNode(true);icon.parentNode.replaceChild(n,icon);n.addEventListener('click',function(e){e.stopPropagation();e.preventDefault();const k=this.dataset.help;if(k)showHelpTooltip(k,this);});});}
+
+      // ===== SMART DISCOUNT RATE =====
+      function calculateAutoDiscount(){const targetReturn=gv('gRR')||10;const safeRate=gv('gSafe')||5;return Math.round(Math.max(targetReturn,safeRate+3)*10)/10;}
+      function updateDiscountUI(){const discInput=document.getElementById('gDisc');const discAutoVal=document.getElementById('discAutoVal');const autoBadge=document.getElementById('autoBadge');const discNote=document.getElementById('discNote');if(!discInput||!discAutoVal)return;const autoVal=calculateAutoDiscount();discAutoVal.textContent=autoVal.toFixed(1)+'%';if(!discInput.value||discInput.value.trim()===''){discInput.placeholder='Auto ('+autoVal.toFixed(1)+'%)';if(autoBadge)autoBadge.style.display='inline-block';if(discNote)discNote.style.display='block';}else{if(autoBadge)autoBadge.style.display='none';if(discNote)discNote.style.display='block';}updateQuickButtons();}
+      function updateQuickButtons(){const discInput=document.getElementById('gDisc');const currentVal=discInput.value.trim()!==''?parseFloat(discInput.value):null;document.querySelectorAll('.quick-btn').forEach(btn=>{const btnRate=parseFloat(btn.dataset.rate);btn.classList.remove('sel');if(currentVal!==null&&Math.abs(currentVal-btnRate)<0.01)btn.classList.add('sel');if(currentVal===null){const autoVal=calculateAutoDiscount();if(Math.abs(btnRate-autoVal)<0.01)btn.classList.add('sel');}});}
+      function setupQuickButtons(){document.querySelectorAll('.quick-btn').forEach(btn=>{btn.addEventListener('click',function(e){e.preventDefault();const discInput=document.getElementById('gDisc');if(discInput){discInput.value=this.dataset.rate;discInput.dispatchEvent(new Event('input'));discInput.dispatchEvent(new Event('change'));updateDiscountUI();saveState();}});});}
+      function setupDiscountAutoReset(){const discInput=document.getElementById('gDisc');if(!discInput)return;discInput.addEventListener('dblclick',function(){this.value='';this.dispatchEvent(new Event('input'));this.dispatchEvent(new Event('change'));updateDiscountUI();saveState();this.style.borderColor='rgba(0,184,110,0.6)';setTimeout(()=>{this.style.borderColor='';},1500);});discInput.addEventListener('input',function(){updateDiscountUI();});}
+
+      // ===== VALIDATION =====
+      function showValidation(msg){const el=document.getElementById('validationMsg');if(el){el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),4000);}}
+      function validateRequiredFields(screenId){const scr=document.getElementById('scr'+screenId);if(!scr)return true;const required=scr.querySelectorAll('input[data-required="true"]');for(const el of required){if(el.closest('.hidden'))continue;if(!el.value||parseFloat(el.value)<=0){el.classList.add('error');el.focus();setTimeout(()=>el.classList.remove('error'),3000);return false;}}return true;}
+      function validateSafeRate(){const el=document.getElementById('gSafe');if(!el.value||parseFloat(el.value)<=0){el.classList.add('error');el.focus();setTimeout(()=>el.classList.remove('error'),3000);showValidation(T('err_safe_rate'));return false;}return true;}
+
+      // ===== CANVAS =====
+      const canvas=document.getElementById('city-canvas'),ctx=canvas.getContext('2d');
+      function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+      resizeCanvas();window.addEventListener('resize',()=>{resizeCanvas();drawScene();});
+      let currentScreen=0,role=null,cityProgress=0,decisionColor=null,animFrame=null;
+      let fieldsFilled={0:0,1:0,2:0},fieldsTotal={0:1,1:0,2:0};
+      const windowSeeds=[];
+      function ensureSeed(ti,fi){if(!windowSeeds[ti])windowSeeds[ti]=[];while(windowSeeds[ti].length<=fi)windowSeeds[ti].push(Math.random());return windowSeeds[ti][fi];}
+      function drawSky(){const W=canvas.width,H=canvas.height,g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#020817');g.addColorStop(0.5,'#0a1628');g.addColorStop(1,'#111d33');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);ctx.fillStyle='rgba(255,255,255,0.5)';for(let i=0;i<80;i++){const sx=((i*7919+1049)%W),sy=((i*6271+3041)%(H*0.65)),sr=0.4+(i%3)*0.5,tw=0.3+0.7*Math.abs(Math.sin(Date.now()/2000+i));ctx.globalAlpha=tw*0.7;ctx.beginPath();ctx.arc(sx,sy,sr,0,Math.PI*2);ctx.fill();}ctx.globalAlpha=1;}
       function drawGround(gy){const W=canvas.width,g=ctx.createLinearGradient(0,gy-40,0,gy+20);g.addColorStop(0,'rgba(20,40,70,0.6)');g.addColorStop(0.5,'rgba(10,20,40,0.9)');g.addColorStop(1,'rgba(5,10,20,1)');ctx.fillStyle=g;ctx.fillRect(0,gy-20,W,canvas.height-gy+20);const lg=ctx.createLinearGradient(0,0,W,0);lg.addColorStop(0,'transparent');lg.addColorStop(0.3,'rgba(0,180,210,0.3)');lg.addColorStop(0.5,'rgba(0,200,230,0.5)');lg.addColorStop(0.7,'rgba(0,180,210,0.3)');lg.addColorStop(1,'transparent');ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(W,gy);ctx.strokeStyle=lg;ctx.lineWidth=1.5;ctx.stroke();}
       function drawWindow(wx,wy,ww,wh,seed,theme,isTop){let f,s;if(isTop){if(theme==='gold'){f='rgba(240,192,64,0.55)';s='rgba(240,192,64,0.9)';}else if(theme==='red'){f='rgba(255,80,100,0.45)';s='rgba(255,80,100,0.8)';}else if(theme==='green'){f='rgba(0,200,120,0.45)';s='rgba(0,200,120,0.8)';}else{f='rgba(80,180,240,0.45)';s='rgba(80,180,240,0.8)';}}else{const r=seed;if(r>0.7){f='rgba(240,180,40,0.28)';s='rgba(240,180,40,0.55)';}else if(r>0.45){f='rgba(60,180,230,0.22)';s='rgba(60,180,230,0.45)';}else if(r>0.25){f='rgba(220,210,190,0.18)';s='rgba(220,210,190,0.35)';}else{f='rgba(10,25,60,0.7)';s='rgba(40,80,140,0.15)';}}ctx.beginPath();ctx.moveTo(wx+2,wy);ctx.lineTo(wx+ww-2,wy);ctx.quadraticCurveTo(wx+ww,wy,wx+ww,wy+3);ctx.lineTo(wx+ww,wy+wh);ctx.lineTo(wx,wy+wh);ctx.lineTo(wx,wy+3);ctx.quadraticCurveTo(wx,wy,wx+2,wy);ctx.closePath();ctx.fillStyle=f;ctx.fill();ctx.strokeStyle=s;ctx.lineWidth=0.7;ctx.stroke();}
       function drawTower(cx,gy,w,built,total,theme,isMain){if(total<=0||built<=0)return;const FH=20,x=cx-w/2;for(let f=0;f<built;f++){const fy=gy-(f+1)*FH,isTop=f===built-1,bg=ctx.createLinearGradient(x,fy,x,fy+FH);bg.addColorStop(0,isTop?'rgba(28,58,108,0.9)':'rgba(20,44,86,0.87)');bg.addColorStop(1,isTop?'rgba(18,40,82,0.95)':'rgba(12,26,62,0.93)');ctx.fillStyle=bg;ctx.fillRect(x,fy,w,FH);ctx.strokeStyle=isTop?'rgba(60,130,210,0.5)':'rgba(50,110,190,0.18)';ctx.lineWidth=isTop?1.3:0.5;ctx.strokeRect(x,fy,w,FH);const ww=w/13,wh=FH*0.6,wg=(w-5*ww)/6;for(let c=0;c<5;c++){const sd=ensureSeed(isMain?0:1,f*5+c);drawWindow(x+wg+c*(ww+wg),fy+(FH-wh)/2,ww,wh,sd,theme,isTop);}}const topY=gy-built*FH,tgl=ctx.createLinearGradient(x,0,x+w,0);tgl.addColorStop(0,'transparent');tgl.addColorStop(0.5,theme==='gold'?'rgba(240,192,64,0.7)':theme==='red'?'rgba(255,60,90,0.6)':theme==='green'?'rgba(0,184,110,0.6)':'rgba(60,180,240,0.6)');tgl.addColorStop(1,'transparent');ctx.beginPath();ctx.moveTo(x,topY+FH);ctx.lineTo(x+w,topY+FH);ctx.strokeStyle=tgl;ctx.lineWidth=2.2;ctx.stroke();ctx.fillStyle='rgba(12,28,66,0.97)';ctx.fillRect(x-10,gy-FH,w+20,FH);ctx.strokeStyle='rgba(60,130,210,0.35)';ctx.lineWidth=1;ctx.strokeRect(x-10,gy-FH,w+20,FH);}
@@ -838,9 +830,9 @@
       function updateCityProgress(){const tf=fieldsTotal[0]+fieldsTotal[1]+fieldsTotal[2],ff=fieldsFilled[0]+fieldsFilled[1]+fieldsFilled[2];cityProgress=tf>0?Math.min(1,ff/tf):0;document.getElementById('fc-n').textContent=ff;document.getElementById('fc-t').textContent=tf;drawScene();}
       function countVisibleFields(si){let c=0;const scr=document.getElementById('scr'+si);if(!scr)return 0;scr.querySelectorAll('input[type="number"], select').forEach(el=>{if(!el.closest('.hidden'))c++;});return c;}
       function recountScreen(si){fieldsTotal[si]=countVisibleFields(si);let f=0;const scr=document.getElementById('scr'+si);if(scr)scr.querySelectorAll('input[type="number"], select').forEach(el=>{if(el.closest('.hidden'))return;if(el.value.trim()!==''&&!isNaN(parseFloat(el.value)))f++;});fieldsFilled[si]=f;updateCityProgress();}
-      function onAnyFieldChange(){recountScreen(currentScreen);if(fieldsFilled[currentScreen]>=fieldsTotal[currentScreen]&&fieldsTotal[currentScreen]>0)startLoop();saveState();}
+      function onAnyFieldChange(){recountScreen(currentScreen);updateDiscountUI();if(fieldsFilled[currentScreen]>=fieldsTotal[currentScreen]&&fieldsTotal[currentScreen]>0)startLoop();saveState();}
       function attachFieldListeners(){document.querySelectorAll('input[type="number"], select').forEach(el=>{const clone=el.cloneNode(true);if(el.parentNode)el.parentNode.replaceChild(clone,el);clone.addEventListener('input',onAnyFieldChange);clone.addEventListener('change',onAnyFieldChange);});document.querySelectorAll('.tip').forEach(tip=>{tip.onclick=function(){const tid=this.dataset.target;if(tid){const inp=document.getElementById(tid);if(inp&&inp.value.trim()===''){inp.value='3';inp.dispatchEvent(new Event('input'));inp.dispatchEvent(new Event('change'));}}};});}
-      function showScreen(idx){document.querySelectorAll('.scr').forEach((s,i)=>s.classList.toggle('on',i===idx));[0,1,2,3].forEach(i=>{const d=document.getElementById('pd'+i);d.classList.remove('active','done');if(i<idx)d.classList.add('done');if(i===idx)d.classList.add('active');});currentScreen=idx;recountScreen(idx);attachFieldListeners();if(idx>=3){startLoop();window.scrollTo({top:0,behavior:'smooth'});}}
+      function showScreen(idx){document.querySelectorAll('.scr').forEach((s,i)=>s.classList.toggle('on',i===idx));[0,1,2,3].forEach(i=>{const d=document.getElementById('pd'+i);d.classList.remove('active','done');if(i<idx)d.classList.add('done');if(i===idx)d.classList.add('active');});currentScreen=idx;recountScreen(idx);attachFieldListeners();attachHelpIcons();updateDiscountUI();if(idx>=3){startLoop();window.scrollTo({top:0,behavior:'smooth'});}}
 
       function sanitizeNumber(value,defaultValue=0,min=0,max=Infinity){let num=parseFloat(value);if(isNaN(num))return defaultValue;return Math.min(max,Math.max(min,num));}
       function gv(id,defaultVal=0,min=0,max=Infinity){const e=document.getElementById(id);if(!e)return defaultVal;return sanitizeNumber(e.value,defaultVal,min,max);}
@@ -850,10 +842,10 @@
 
       function npv(rate,cashflows){if(!cashflows||cashflows.length===0)return 0;let total=0;for(let t=0;t<cashflows.length;t++){total+=cashflows[t]/Math.pow(1+rate,t);}return total;}
       function npvDerivative(rate,cashflows){let total=0;for(let t=1;t<cashflows.length;t++){total-=t*cashflows[t]/Math.pow(1+rate,t+1);}return total;}
-      function irr(cashflows){let guess=0.10;for(let i=0;i<1000;i++){const npvVal=npv(guess,cashflows),deriv=npvDerivative(guess,cashflows);if(Math.abs(deriv)<1e-10)break;const newGuess=guess-npvVal/deriv;if(Math.abs(newGuess-guess)<1e-8)return Math.max(-0.5, Math.min(3.0, newGuess));guess=newGuess;}return Math.max(-0.5, Math.min(3.0, guess));}
+      function irr(cashflows){let guess=0.10;for(let i=0;i<1000;i++){const npvVal=npv(guess,cashflows),deriv=npvDerivative(guess,cashflows);if(Math.abs(deriv)<1e-10)break;const newGuess=guess-npvVal/deriv;if(Math.abs(newGuess-guess)<1e-8)return Math.max(-0.5,Math.min(3.0,newGuess));guess=newGuess;}return Math.max(-0.5,Math.min(3.0,guess));}
       function mortgagePayment(principal,annualRate,years){if(principal<=0||annualRate<=0||years<=0)return 0;const r=(annualRate/100)/12,n=years*12;if(r===0)return principal/n;return principal*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);}
       function remainingLoanBalance(originalLoan,annualRate,totalYears,paymentsMade){if(originalLoan<=0||annualRate<=0)return 0;const r=(annualRate/100)/12,totalN=totalYears*12,payment=mortgagePayment(originalLoan,annualRate,totalYears);let balance=originalLoan;const pmtCount=Math.min(paymentsMade,totalN);for(let i=0;i<pmtCount;i++){const interest=balance*r,principal=payment-interest;balance-=principal;if(balance<0)balance=0;}return balance;}
-      function buildProjection({P,DP,CF,CG,RG,Vac,OpEx,IR,LT,holdYears,exitCost}){const years=Math.max(1,Math.floor(holdYears)),vacRate=Vac/100,opRate=OpEx/100,rentGrowth=RG/100,capGrowth=CG;let price=P,rent=CF;const downPayment=Math.max(0,DP||0),loan=(IR>0&&LT>0)?Math.max(0,P-downPayment):0,paymentMonthly=(loan>0)?mortgagePayment(loan,IR,LT):0,annualDebt=paymentMonthly*12,cashflows=[];cashflows.push(-downPayment);const rows=[];for(let y=1;y<=years;y++){if(y===1){rent=CF;}else{price=price*(1+capGrowth);rent=rent*(1+rentGrowth);}const effectiveRent=rent*(1-vacRate),opCost=effectiveRent*opRate,noi=effectiveRent-opCost,netCash=noi-annualDebt;rows.push({year:y,price:price,rent:effectiveRent,noi:noi,debt:annualDebt,net:netCash});cashflows.push(netCash);}const exitValueGross=price,exitFees=exitValueGross*(exitCost/100),exitValueNet=exitValueGross-exitFees,remainingLoan=loan>0?remainingLoanBalance(loan,IR,LT,years*12):0;cashflows[cashflows.length-1]=Math.max(0, cashflows[cashflows.length-1]+exitValueNet-remainingLoan);return{rows,cashflows,exitValueNet,annualDebt,loan,remainingLoan};}
+      function buildProjection({P,DP,CF,CG,RG,Vac,OpEx,IR,LT,holdYears,exitCost}){const years=Math.max(1,Math.floor(holdYears)),vacRate=Vac/100,opRate=OpEx/100,rentGrowth=RG/100,capGrowth=CG;let price=P,rent=CF;const downPayment=Math.max(0,DP||0),loan=(IR>0&&LT>0)?Math.max(0,P-downPayment):0,paymentMonthly=(loan>0)?mortgagePayment(loan,IR,LT):0,annualDebt=paymentMonthly*12,cashflows=[];cashflows.push(-downPayment);const rows=[];for(let y=1;y<=years;y++){if(y===1){rent=CF;}else{price=price*(1+capGrowth);rent=rent*(1+rentGrowth);}const effectiveRent=rent*(1-vacRate),opCost=effectiveRent*opRate,noi=effectiveRent-opCost,netCash=noi-annualDebt;rows.push({year:y,price:price,rent:effectiveRent,noi:noi,debt:annualDebt,net:netCash});cashflows.push(netCash);}const exitValueGross=price,exitFees=exitValueGross*(exitCost/100),exitValueNet=exitValueGross-exitFees,remainingLoan=loan>0?remainingLoanBalance(loan,IR,LT,years*12):0;cashflows[cashflows.length-1]=Math.max(0,cashflows[cashflows.length-1]+exitValueNet-remainingLoan);return{rows,cashflows,exitValueNet,annualDebt,loan,remainingLoan};}
       function scoreDecision(metrics){let score=0;if(metrics.irr>=0.18)score+=40;else if(metrics.irr>=0.14)score+=32;else if(metrics.irr>=0.10)score+=22;else if(metrics.irr>=0.07)score+=12;else score+=5;if(metrics.coc>=0.12)score+=25;else if(metrics.coc>=0.08)score+=18;else if(metrics.coc>=0.05)score+=12;else score+=5;if(metrics.dscr===999)score+=20;else if(metrics.dscr>=1.4)score+=20;else if(metrics.dscr>=1.2)score+=14;else if(metrics.dscr>=1.0)score+=6;if(metrics.vacancy>=0.15)score-=8;if(metrics.exitCost>=0.08)score-=5;if(metrics.noi<=0)score-=10;score=Math.max(0,Math.min(100,score));return score;}
       function decisionFromScore(score){if(score>=80)return{cls:'buy',dec:T('strong_buy')};if(score>=60)return{cls:'buy',dec:T('good_buy')};if(score>=45)return{cls:'caution',dec:T('medium')};if(score>=30)return{cls:'hold',dec:T('weak')};return{cls:'sell',dec:T('avoid')};}
       function buildScenarioPack(baseInput){const base=JSON.parse(JSON.stringify(baseInput)),best=JSON.parse(JSON.stringify(baseInput));best.CG=Math.min(0.25,(baseInput.CG||0)+0.02);best.Vac=Math.max(0,(baseInput.Vac||8)-5);best.OpEx=Math.max(0,(baseInput.OpEx||18)-3);best.RG=(baseInput.RG||2)+1;const worst=JSON.parse(JSON.stringify(baseInput));worst.CG=Math.max(-0.05,(baseInput.CG||0)-0.03);worst.Vac=Math.min(40,(baseInput.Vac||8)+10);worst.OpEx=Math.min(60,(baseInput.OpEx||18)+7);worst.RG=Math.max(0,(baseInput.RG||2)-1);return{best,base,worst};}
@@ -871,56 +863,7 @@
       function showLoading(btnId,show){const btn=document.getElementById(btnId);if(!btn)return;if(show){btn.disabled=true;const originalText=btn.textContent;btn.setAttribute('data-original-text',originalText);btn.innerHTML='<span class="loading"></span> Analyzing...';}else{btn.disabled=false;const originalText=btn.getAttribute('data-original-text');if(originalText)btn.textContent=originalText;else btn.textContent='🧮 Calculate';}}
 
       // ===== PARSE VALUATION ENGINE DATA =====
-      function parseValuationParams() {
-        const params = new URLSearchParams(window.location.search);
-        if (params.get('referrer') !== 'aqar_valuation') return;
-        
-        const price = parseInt(params.get('price')) || 0;
-        const rent = parseInt(params.get('rent')) || 0;
-        const valuation = parseInt(params.get('valuation')) || 0;
-        const valLow = parseInt(params.get('valLow')) || 0;
-        const valHigh = parseInt(params.get('valHigh')) || 0;
-        const confidence = parseInt(params.get('confidence')) || 0;
-        const methods = parseInt(params.get('methods')) || 0;
-        const capRate = parseFloat(params.get('capRate')) || 0;
-        const vacancy = parseInt(params.get('vacancy')) || 0;
-        const trend = params.get('trend') || '';
-        const classification = params.get('classification') || '';
-        const propType = params.get('type') || '';
-        const city = params.get('city') || '';
-        const district = params.get('district') || '';
-        
-        // Show banner
-        if (valuation > 0) {
-          const banner = document.getElementById('valuationBanner');
-          document.getElementById('valBannerText').innerHTML = 
-            `Fair Value: <b>${valuation.toLocaleString()} AED</b> | ` +
-            `Range: ${valLow.toLocaleString()} - ${valHigh.toLocaleString()} AED | ` +
-            `Confidence: ${confidence}% (${methods} methods) | ` +
-            `${propType} • ${district}, ${city}`;
-          banner.classList.add('show');
-        }
-        
-        // Pre-fill fields
-        if (price > 0) document.getElementById('bP').value = price;
-        if (rent > 0) document.getElementById('bCF').value = rent;
-        if (vacancy > 0) document.getElementById('bVac').value = vacancy;
-        if (capRate > 0) document.getElementById('gSafe').value = capRate;
-        
-        // Smart discount rate based on confidence
-        let discRate = 10;
-        if (confidence >= 85) discRate = 8;
-        else if (confidence >= 70) discRate = 10;
-        else if (confidence >= 50) discRate = 12;
-        else discRate = 15;
-        document.getElementById('gDisc').value = discRate;
-        
-        // Value growth based on classification
-        const growthMap = { luxury: 4, upper: 3.5, middle: 3, budget: 2, industrial: 1.5 };
-        if (classification) document.getElementById('bCG').value = growthMap[classification] || 3;
-        
-        console.log('✅ Valuation data loaded from URL params');
-      }
+      function parseValuationParams(){const params=new URLSearchParams(window.location.search);if(params.get('referrer')!=='aqar_valuation')return;const price=parseInt(params.get('price'))||0,rent=parseInt(params.get('rent'))||0,valuation=parseInt(params.get('valuation'))||0,valLow=parseInt(params.get('valLow'))||0,valHigh=parseInt(params.get('valHigh'))||0,confidence=parseInt(params.get('confidence'))||0,methods=parseInt(params.get('methods'))||0,capRate=parseFloat(params.get('capRate'))||0,vacancy=parseInt(params.get('vacancy'))||0,classification=params.get('classification')||'',propType=params.get('type')||'',city=params.get('city')||'',district=params.get('district')||'';if(valuation>0){const banner=document.createElement('div');banner.style.cssText='background:rgba(212,146,14,0.08);border:1px solid rgba(212,146,14,0.25);border-radius:12px;padding:14px 16px;margin-bottom:16px;font-size:11px;color:#d4920e;line-height:1.7;text-align:center';banner.innerHTML=`📋 <b>From Valuation Engine</b><br>Fair Value: <b>${valuation.toLocaleString()} AED</b> | Range: ${valLow.toLocaleString()}-${valHigh.toLocaleString()} AED | Confidence: ${confidence}% (${methods} methods) | ${propType} • ${district}, ${city}`;const brand=document.querySelector('.brand');brand.parentNode.insertBefore(banner,brand.nextSibling);}if(price>0)document.getElementById('bP').value=price;if(rent>0)document.getElementById('bCF').value=rent;if(vacancy>0)document.getElementById('bVac').value=vacancy;if(capRate>0)document.getElementById('gSafe').value=capRate;let discRate=10;if(confidence>=85)discRate=8;else if(confidence>=70)discRate=10;else if(confidence>=50)discRate=12;else discRate=15;document.getElementById('gDisc').value=discRate;const growthMap={luxury:4,upper:3.5,middle:3,budget:2,industrial:1.5};if(classification)document.getElementById('bCG').value=growthMap[classification]||3;}
 
       function doCalc(){
         showLoading('btnCalculate',true);
@@ -928,8 +871,9 @@
           try{
             let RR=gv('gRR'),Safe=gv('gSafe'),SwC=gv('gSw'),holdYears=gv('gHold'),disc=gv('gDisc');
             RR=RR>0?RR/100:0.10;Safe=Safe>0?Safe/100:0.05;SwC=SwC>0?SwC/100:0.05;
-            holdYears=Math.max(1, holdYears>0?holdYears:5);
-            disc=disc>0?disc/100:RR;
+            holdYears=Math.max(1,holdYears>0?holdYears:5);
+            if(disc<=0||document.getElementById('gDisc').value.trim()===''){disc=calculateAutoDiscount();}
+            disc=disc/100;
             const varR=document.getElementById('gVar').value==='yes';
             let html='',cls='',dec='',foot='',_score=null;
 
@@ -977,26 +921,22 @@
         },50);
       }
 
-      // EVENTS
+      // ===== EVENTS =====
       document.querySelectorAll('#roleOptions .opt').forEach(opt=>{opt.addEventListener('click',function(){document.querySelectorAll('#roleOptions .opt').forEach(o=>o.classList.remove('sel'));this.classList.add('sel');role=this.dataset.role;document.getElementById('btnNext0').disabled=false;fieldsFilled[0]=1;updateCityProgress();startLoop();saveState();});});
       document.getElementById('btnNext0').addEventListener('click',()=>{const bF=document.getElementById('buyerFields'),oF=document.getElementById('ownerFields'),t=document.getElementById('s1Title');if(role==='buyer'){bF.classList.remove('hidden');oF.classList.add('hidden');t.textContent=T('scr1_buyer_title');}else{bF.classList.add('hidden');oF.classList.remove('hidden');t.textContent=role==='seller'?T('scr1_seller_title'):T('scr1_switcher_title');}showScreen(1);});
       document.getElementById('btnNext1').addEventListener('click',()=>{if(role==='buyer'){if(!validateRequiredFields(1)){showValidation(T('err_buyer_required'));return;}if(!validateSafeRate())return;doCalc();}else if(role==='seller'){if(!validateRequiredFields(1)){showValidation(T('err_mv'));return;}if(!validateSafeRate())return;doCalc();}else if(role==='switcher'){if(!validateRequiredFields(1)){showValidation(T('err_all_required'));return;}if(!validateSafeRate())return;showScreen(2);}});
       document.getElementById('btnBack1').addEventListener('click',()=>showScreen(0));
       document.getElementById('btnCalculate').addEventListener('click',()=>{if(!validateRequiredFields(2)){showValidation(T('err_new_price'));return;}if(!validateSafeRate())return;doCalc();});
       document.getElementById('btnBack2').addEventListener('click',()=>showScreen(1));
-      document.getElementById('btnRestart').addEventListener('click',()=>{role=null;decisionColor=null;cityProgress=0;fieldsFilled={0:0,1:0,2:0};fieldsTotal={0:1,1:0,2:0};document.querySelectorAll('#roleOptions .opt').forEach(o=>o.classList.remove('sel'));document.getElementById('btnNext0').disabled=true;document.querySelectorAll('input[type="number"]').forEach(i=>{i.value='';});document.getElementById('gVar').value='no';document.getElementById('buyerFields').classList.add('hidden');document.getElementById('ownerFields').classList.add('hidden');document.getElementById('rHTML').innerHTML='';document.getElementById('rFoot').textContent='';document.getElementById('valuationBanner').classList.remove('show');document.getElementById('validationMsg').classList.remove('show');window.scrollTo({top:0,behavior:'smooth'});showScreen(0);stopLoop();drawScene();localStorage.removeItem('AQAR_STATE');saveState();});
-
-      function showValidation(msg){const el=document.getElementById('validationMsg');if(el){el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),4000);}}
-      function validateRequiredFields(screenId){const scr=document.getElementById('scr'+screenId);if(!scr)return true;const required=scr.querySelectorAll('input[data-required="true"]');for(const el of required){if(el.closest('.hidden'))continue;if(!el.value||parseFloat(el.value)<=0){el.classList.add('error');el.focus();setTimeout(()=>el.classList.remove('error'),3000);return false;}}return true;}
-      function validateSafeRate(){const el=document.getElementById('gSafe');if(!el.value||parseFloat(el.value)<=0){el.classList.add('error');el.focus();setTimeout(()=>el.classList.remove('error'),3000);showValidation(T('err_safe_rate'));return false;}return true;}
+      document.getElementById('btnRestart').addEventListener('click',()=>{role=null;decisionColor=null;cityProgress=0;fieldsFilled={0:0,1:0,2:0};fieldsTotal={0:1,1:0,2:0};document.querySelectorAll('#roleOptions .opt').forEach(o=>o.classList.remove('sel'));document.getElementById('btnNext0').disabled=true;document.querySelectorAll('input[type="number"]').forEach(i=>{i.value='';});document.getElementById('gVar').value='no';document.getElementById('buyerFields').classList.add('hidden');document.getElementById('ownerFields').classList.add('hidden');document.getElementById('rHTML').innerHTML='';document.getElementById('rFoot').textContent='';document.getElementById('validationMsg').classList.remove('show');document.getElementById('gDisc').value='';updateDiscountUI();window.scrollTo({top:0,behavior:'smooth'});showScreen(0);stopLoop();drawScene();localStorage.removeItem('AQAR_STATE');saveState();});
 
       function saveState(){const data={};document.querySelectorAll('input[type="number"], select').forEach(el=>{if(el.id)data[el.id]=el.value;});if(role)data.__role=role;if(document.getElementById('gVar'))data.__varRate=document.getElementById('gVar').value;localStorage.setItem('AQAR_STATE',JSON.stringify(data));}
-      function restoreState(){try{const raw=localStorage.getItem('AQAR_STATE');if(!raw)return;const data=JSON.parse(raw);if(data&&typeof data==='object'){document.querySelectorAll('input[type="number"], select').forEach(el=>{if(el.id&&data[el.id]!==undefined)el.value=data[el.id];});if(data.__varRate&&document.getElementById('gVar')){document.getElementById('gVar').value=data.__varRate;}if(data.__role){role=data.__role;const opt=document.querySelector(`#roleOptions .opt[data-role="${role}"]`);if(opt){document.querySelectorAll('#roleOptions .opt').forEach(o=>o.classList.remove('sel'));opt.classList.add('sel');document.getElementById('btnNext0').disabled=false;fieldsFilled[0]=1;}const bF=document.getElementById('buyerFields'),oF=document.getElementById('ownerFields');if(role==='buyer'){if(bF)bF.classList.remove('hidden');if(oF)oF.classList.add('hidden');}else{if(bF)bF.classList.add('hidden');if(oF)oF.classList.remove('hidden');}const s1t=document.getElementById('s1Title');if(s1t){if(role==='buyer')s1t.textContent=T('scr1_buyer_title');else if(role==='seller')s1t.textContent=T('scr1_seller_title');else s1t.textContent=T('scr1_switcher_title');}}}}catch(e){}}
+      function restoreState(){try{const raw=localStorage.getItem('AQAR_STATE');if(!raw)return;const data=JSON.parse(raw);if(data&&typeof data==='object'){document.querySelectorAll('input[type="number"], select').forEach(el=>{if(el.id&&data[el.id]!==undefined)el.value=data[el.id];});if(data.__varRate&&document.getElementById('gVar')){document.getElementById('gVar').value=data.__varRate;}if(data.__role){role=data.__role;const opt=document.querySelector(`#roleOptions .opt[data-role="${role}"]`);if(opt){document.querySelectorAll('#roleOptions .opt').forEach(o=>o.classList.remove('sel'));opt.classList.add('sel');document.getElementById('btnNext0').disabled=false;fieldsFilled[0]=1;}const bF=document.getElementById('buyerFields'),oF=document.getElementById('ownerFields');if(role==='buyer'){if(bF)bF.classList.remove('hidden');if(oF)oF.classList.add('hidden');}else{if(bF)bF.classList.add('hidden');if(oF)oF.classList.remove('hidden');}const s1t=document.getElementById('s1Title');if(s1t){if(role==='buyer')s1t.textContent=T('scr1_buyer_title');else if(role==='seller')s1t.textContent=T('scr1_seller_title');else s1t.textContent=T('scr1_switcher_title');}}}setTimeout(()=>{updateDiscountUI();setupQuickButtons();},100);}catch(e){}}
 
       document.addEventListener('input',saveState);document.addEventListener('change',saveState);
       restoreState();
       parseValuationParams();
-      attachFieldListeners();
+      attachFieldListeners();attachHelpIcons();setupQuickButtons();setupDiscountAutoReset();updateDiscountUI();
       recountScreen(0);drawScene();startLoop();
     }
   </script>
